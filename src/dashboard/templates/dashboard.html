@@ -7,12 +7,14 @@
     <h1>📊 Investor Dashboard</h1>
     <div class="topbar-actions">
       <span class="last-refresh">Stand: {{ last_refresh }}</span>
+      {% if not static_build %}
       <button class="refresh-btn"
-              hx-get="/partials/cards"
+              hx-get="{{ base_path }}/partials/cards"
               hx-target="#grid"
               hx-swap="outerHTML"
               hx-indicator="#load-ind">↻ Aktualisieren</button>
       <span id="load-ind" class="htmx-indicator">lädt…</span>
+      {% endif %}
     </div>
   </div>
   <div class="filterbar" role="group" aria-label="Filter nach Ampel">

@@ -4,7 +4,7 @@
 {% block title %}{{ ind.name }} — Investor Dashboard{% endblock %}
 
 {% block content %}
-<a href="/" class="back">← Zurück zum Dashboard</a>
+<a href="{{ base_path }}/" class="back">← Zurück zum Dashboard</a>
 
 <header class="detail-head">
   <div class="detail-cat">{{ category_label(ind.category.value) }}</div>

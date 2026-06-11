@@ -122,6 +122,28 @@ def test_healthz(test_client: TestClient) -> None:
     assert resp.json() == {"status": "ok"}
 
 
+def test_static_build_prefixes_links_and_hides_refresh() -> None:
+    settings = Settings(
+        _env_file=None,  # type: ignore[call-arg]
+        fred_api_key="test-key",  # type: ignore[arg-type]
+        base_path="/investor-dashboard",
+        static_build=True,
+    )
+    app = create_app(settings)
+    app.dependency_overrides[get_service] = lambda: FakeService(get_registry())
+    with TestClient(app) as client:
+        html = client.get("/").text
+        detail = client.get("/indicator/vix").text
+
+    # Links sind praefixiert (Pages-Projekt-Site liegt unter /investor-dashboard/).
+    assert 'href="/investor-dashboard/static/style.css"' in html
+    assert 'href="/investor-dashboard/indicator/vix/"' in html
+    assert 'href="/investor-dashboard/"' in detail  # Zurueck-Link
+    # Refresh-Button existiert im statischen Export nicht.
+    assert "refresh-btn" not in html
+    assert 'hx-get="' not in html
+
+
 def test_priority_sorts_first_within_category() -> None:
     low = Indicator(id="a", name="A", category="rates", source="fred", series_id="X", unit="%")
     high = Indicator(

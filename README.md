@@ -198,7 +198,7 @@ Manifest-Eintrag ergänzen.
 ```
 
 - **Tests:** pytest + respx (HTTP-Mocking), je Quelle ein Happy-Path-Test mit Fixture.
-  Aktuell **92 Tests, ~92 % Coverage**.
+  Aktuell **100 Tests, ~92 % Coverage**.
 - **Linting:** ruff (`E,F,I,N,UP,B,SIM,RUF,PL`), **mypy --strict** clean.
 - **Pre-commit:** `uv run pre-commit install` aktiviert ruff/mypy/pytest-Hooks.
 
@@ -230,50 +230,44 @@ src/dashboard/
 
 ---
 
-## 🌐 Öffentlich deployen (Cloud, 24/7)
+## 🌐 Öffentliche Seite (GitHub Pages, gratis — empfohlen)
 
-Das Projekt ist deploybar: [`Dockerfile`](Dockerfile) (läuft auf jedem Container-Hoster)
-plus [`render.yaml`](render.yaml) als Ein-Klick-Blueprint für **Render**.
+Das Dashboard ist read-only → es braucht **keinen laufenden Server**. Ein GitHub-Actions-
+Workflow ([`.github/workflows/pages.yml`](.github/workflows/pages.yml)) rendert **stündlich**
+alle Seiten mit frischen Daten als statisches HTML ([`scripts/build_static.py`](scripts/build_static.py))
+und deployt auf **GitHub Pages**:
 
-**Wichtig:** Der `FRED_API_KEY` bleibt serverseitig und wird als **Umgebungsvariable**
-beim Hoster gesetzt — niemals committen (`.env` ist via `.gitignore`/`.dockerignore`
-ausgeschlossen). Der Port kommt vom Hoster über `$PORT`, der Host bindet auf `0.0.0.0`.
+- **URL:** `https://<user>.github.io/investor-dashboard/` — immer online, kein Cold Start
+- **Gratis** (öffentliches Repo nötig), keine Kreditkarte
+- Daten maximal ~60 Min alt (= bisherige Cache-TTL); Quellen liefern eh meist nur 1×/Tag
+- Vermeidet das Server-Hosting-Problem, dass Gratis-Quellen (stooq) Rechenzentrums-IPs
+  blocken: der Yahoo-Fallback greift auf den GitHub-Runnern (lokal verifiziert: 39/39)
 
-### Weg über Render (empfohlen, Gratis-Tarif)
+### Einmalige Einrichtung (Repo auf GitHub)
 
-1. Projekt zu GitHub pushen (einmalig):
-   ```powershell
-   git add -A
-   git commit -m "Investor Dashboard"
-   git branch -M main
-   git remote add origin https://github.com/<dein-user>/investor-dashboard.git
-   git push -u origin main
-   ```
-2. Auf [render.com](https://render.com) → **New → Blueprint** → dein Repo wählen.
-   Render liest `render.yaml` und legt den Docker-Web-Service an.
-3. Im Service unter **Environment** den `FRED_API_KEY` eintragen → **Deploy**.
-4. Nach ein paar Minuten läuft das Dashboard unter
-   `https://investor-dashboard-xyz.onrender.com`.
+1. **Repo public machen:** Settings → General → Danger Zone → *Change visibility*
+   (Pages ist im Gratis-Plan nur für öffentliche Repos; der FRED-Key bleibt als Secret geheim).
+2. **Secret anlegen:** Settings → Secrets and variables → **Actions** →
+   *New repository secret* → Name `FRED_API_KEY`, Wert = dein Key.
+3. **Pages aktivieren:** Settings → **Pages** → Source: **GitHub Actions**.
 
-> **Alternativen:** **Railway** (Repo importieren, erkennt das `Dockerfile` automatisch,
-> `FRED_API_KEY` als Variable setzen) oder **Fly.io** (`fly launch` nutzt den Dockerfile,
-> `fly secrets set FRED_API_KEY=…`). Beide funktionieren ohne Änderung.
+Danach läuft alles automatisch: jeder Push und jede volle Stunde (Minute 17) baut und
+veröffentlicht die Site neu. Manuell anstoßen: Actions → *Build & Deploy Pages* → *Run workflow*.
 
-### Lokal mit Docker testen
+Lokal testen: `uv run python scripts/build_static.py` → Ergebnis in `dist/`.
+
+### Alternative: eigener Server (Docker)
+
+[`Dockerfile`](Dockerfile) + [`render.yaml`](render.yaml) bleiben für Container-Hosting
+erhalten (Render/Railway/Fly). **Achtung:** Gratis-Server-Tarife schlafen ein, und
+stooq & Co. blocken Rechenzentrums-IPs → einzelne Karten degradieren. Empfohlen nur
+mit bezahltem Tarif oder eigener Infrastruktur. `FRED_API_KEY` immer als Env-Variable
+setzen, nie committen.
 
 ```powershell
 docker build -t investor-dashboard .
 docker run -p 8000:8000 -e FRED_API_KEY=dein_key investor-dashboard
 ```
-
-### Gut zu wissen
-
-- **Cold Start:** Auf Gratis-Tarifen schläft der Dienst bei Inaktivität ein und braucht
-  beim ersten Aufruf ~30–60 s (danach plus ~10 s für die Live-Abrufe). Warm ist er schnell.
-- **Offen zugänglich:** Wie gewählt ohne Login. Inhaltlich unkritisch (nur öffentliche
-  Marktdaten). Ein Passwortschutz lässt sich später additiv ergänzen.
-- **Rate-Limits:** Der 60-Minuten-Cache schützt die Gratis-Quellen. Bei *viel* öffentlichem
-  Traffic können CoinGecko/stooq trotzdem limitieren — dann degradieren nur einzelne Karten.
 
 ---
 

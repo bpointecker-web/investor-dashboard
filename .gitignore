@@ -1,3 +1,6 @@
+# Statischer Site-Build (GitHub Pages, wird vom Workflow erzeugt)
+dist/
+
 # Python
 __pycache__/
 *.py[cod]

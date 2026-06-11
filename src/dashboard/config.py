@@ -38,6 +38,14 @@ class Settings(BaseSettings):
     dashboard_host: str = "127.0.0.1"
     dashboard_port: int = 8000
 
+    # ---- Statischer Site-Build (GitHub Pages) --------------------------------
+    # base_path: URL-Praefix, wenn die Site unter einem Unterpfad liegt
+    # (GitHub Pages Projekt-Site: "/investor-dashboard"). Leer im Servermodus.
+    base_path: str = ""
+    # static_build: blendet interaktive Server-Features aus (Refresh-Button),
+    # die es im statischen Export nicht gibt.
+    static_build: bool = False
+
     # ---- Logging ------------------------------------------------------------
     log_level: str = "INFO"
     log_json: bool = False

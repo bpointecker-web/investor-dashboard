@@ -3,7 +3,7 @@
 {% set band = snap.stats.band.value if ok else 'error' %}
 <article class="card band-{{ band }}{{ ' is-error' if not ok else '' }}{{ ' is-priority' if ind.priority > 0 else '' }}"
          data-band="{{ band }}" data-priority="{{ ind.priority }}">
-  <a class="card-link" href="/indicator/{{ ind.id }}">
+  <a class="card-link" href="{{ base_path }}/indicator/{{ ind.id }}{{ '/' if static_build else '' }}">
     <div class="card-head">
       <span class="card-name" title="{{ category_label(ind.category.value) }}">
         {% if ind.priority > 0 %}<span class="star" title="Wichtige Kennzahl">★</span> {% endif %}{{ ind.name }}

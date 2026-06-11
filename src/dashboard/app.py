@@ -25,7 +25,7 @@ _STATIC_DIR = _BASE_DIR / "static"
 _log = get_logger("app")
 
 
-def _build_templates() -> Jinja2Templates:
+def _build_templates(settings: Settings) -> Jinja2Templates:
     """Erstellt die Jinja2-Umgebung und registriert Formatierungs-Helfer."""
     templates = Jinja2Templates(directory=str(_TEMPLATES_DIR))
     templates.env.globals.update(
@@ -38,6 +38,9 @@ def _build_templates() -> Jinja2Templates:
         category_label=formatting.category_label,
         source_url=formatting.source_url,
         format_richtext=formatting.format_richtext,
+        # Statischer Export (GitHub Pages): URL-Praefix + Feature-Ausblendung.
+        base_path=settings.base_path,
+        static_build=settings.static_build,
     )
     return templates
 
@@ -64,7 +67,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     app = FastAPI(title="Investor Dashboard", version="0.1.0", lifespan=_lifespan)
     app.state.settings = settings
     app.state.registry = get_registry()
-    app.state.templates = _build_templates()
+    app.state.templates = _build_templates(settings)
 
     app.mount("/static", StaticFiles(directory=str(_STATIC_DIR)), name="static")
     app.include_router(pages.router)

@@ -1,0 +1,60 @@
+# Baut das Dashboard stuendlich als statische Site und deployt auf GitHub Pages.
+# Voraussetzungen (einmalig im Repo):
+#   - Settings -> Pages -> Source: "GitHub Actions"
+#   - Settings -> Secrets and variables -> Actions -> Secret FRED_API_KEY
+name: Build & Deploy Pages
+
+on:
+  schedule:
+    # Stuendlich zur Minute 17 (volle Stunde ist bei GitHub ueberlastet,
+    # solche Laeufe werden oft verworfen).
+    - cron: "17 * * * *"
+  workflow_dispatch: {}
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Nie zwei Deploys gleichzeitig; laufenden Lauf nicht abbrechen.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+env:
+  TZ: Europe/Vienna
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: uv installieren
+        uses: astral-sh/setup-uv@v5
+
+      - name: Abhaengigkeiten installieren
+        run: uv sync --frozen --no-dev
+
+      - name: Statische Site bauen (live Daten abrufen)
+        run: uv run --no-sync python scripts/build_static.py
+        env:
+          FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
+
+      - name: Artefakt hochladen
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Auf GitHub Pages deployen
+        id: deployment
+        uses: actions/deploy-pages@v4
