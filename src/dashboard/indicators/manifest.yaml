@@ -1,0 +1,1147 @@
+# =============================================================================
+# Indikator-Katalog (Manifest)
+# Deklarative Beschreibung aller Indikatoren. Der Code laedt ausschliesslich
+# dieses YAML - keine hartkodierten Listen.
+#
+# Felder:
+#   id, name, category, source, unit, direction, decimals,
+#   display_multiplier, cache_ttl_minutes (optional, default 60),
+#   series_id | symbol | formula  (je nach source),
+#   thresholds (optional: low/elevated/stress in Anzeige-Einheiten),
+#   what / why / example  (Deutsch, mechanistisch erklaerend)
+# =============================================================================
+
+# ----------------------------------------------------------------------------
+# 1) CREDIT SPREADS
+# ----------------------------------------------------------------------------
+- id: us_hy_spread
+  name: "US High Yield Spread (OAS)"
+  priority: 3
+  category: credit
+  source: fred
+  series_id: BAMLH0A0HYM2
+  unit: bp
+  display_multiplier: 100
+  decimals: 0
+  direction: higher_is_stress
+  thresholds:
+    elevated: 500
+    stress: 700
+  what: |
+    Aufschlag, den US-Hochzinsanleihen ("Junk Bonds", Rating BB+ und schlechter)
+    ueber vergleichbare US-Staatsanleihen zahlen muessen. Misst die Risikopraemie
+    fuer Kreditrisiko im spekulativen Segment (Option-Adjusted Spread).
+  why: |
+    Klassischer Fruehindikator fuer Marktstress und Rezession. Erwarten Investoren
+    mehr Ausfaelle, fordern sie hoehere Spreads; steigende Refinanzierungskosten
+    verschaerfen dann die Lage der schwaechsten Emittenten zusaetzlich. Bewegt sich
+    oft 6-12 Monate vor Aktienkorrekturen und ist eng an den US-Konjunkturzyklus gekoppelt.
+  example: |
+    Der Aufschlag wird in Basispunkten gemessen (100 bp = 1 Prozentpunkt). Je hoeher er
+    ist, desto mehr Extra-Zins verlangen Anleger dafuer, dass sie schwaecheren Firmen Geld
+    leihen.
+
+    **So liest du die Hoehe:** 300-400 bp bedeuten eine ruhige Lage. Ueber 500 bp wird der
+    Markt nervoes. Ueber 700 bp herrscht echter Stress - Anleger rechnen mit vielen Pleiten.
+
+    **Beispiele:** Nach der Lehman-Pleite (Okt. 2008) stieg der Aufschlag auf rund 1900 bp,
+    im Corona-Crash (Maerz 2020) auf etwa 1100 bp. In beiden Faellen wollte kaum jemand
+    riskanten Firmen noch Geld leihen.
+
+    **Der umgekehrte Fall ist genauso wichtig:** Ist der Aufschlag sehr niedrig (unter
+    300 bp), verlangen Anleger fast keine Praemie mehr fuers Risiko - ein Zeichen von
+    Sorglosigkeit. Das klingt beruhigend, war in der Vergangenheit aber oft ein Warnzeichen
+    kurz vor dem Abschwung, etwa Anfang 2007 vor der Finanzkrise.
+
+- id: us_ig_spread
+  name: "US Investment Grade Spread (OAS)"
+  category: credit
+  source: fred
+  series_id: BAMLC0A0CM
+  unit: bp
+  display_multiplier: 100
+  decimals: 0
+  direction: higher_is_stress
+  thresholds:
+    elevated: 150
+    stress: 250
+  what: |
+    Risikoaufschlag von US-Unternehmensanleihen mit gutem Rating (BBB- und besser)
+    gegenueber Staatsanleihen. Deckt das qualitativ hochwertige Kreditsegment ab.
+  why: |
+    Weil IG-Anleihen von vielen institutionellen Investoren gehalten werden, signalisiert
+    eine Ausweitung hier eine breitere Risikoaversion als der HY-Markt. Steigende
+    IG-Spreads verteuern die Unternehmensfinanzierung quer durch die Realwirtschaft.
+  example: |
+    Auch hier gilt: je hoeher der Aufschlag, desto mehr Sorge um Ausfaelle - allerdings
+    geht es um solide Firmen mit gutem Rating, nicht um Wackelkandidaten.
+
+    **So liest du die Hoehe:** 100-130 bp sind normal und ruhig. Ueber 150 bp wird es
+    angespannt. Ueber 250 bp ist es ernst - dann zweifelt der Markt selbst an soliden
+    Schuldnern.
+
+    **Beispiele:** Im Corona-Crash (Maerz 2020) sprang der Aufschlag auf rund 370 bp, auf
+    dem Hoehepunkt der Finanzkrise 2008 sogar ueber 600 bp. Weil viele grosse Investoren
+    gerade diese Anleihen halten, trifft Stress hier die Finanzmaerkte besonders breit.
+
+- id: eu_hy_spread
+  name: "Euro High Yield Spread (OAS)"
+  category: credit
+  source: fred
+  series_id: BAMLHE00EHYIOAS
+  unit: bp
+  display_multiplier: 100
+  decimals: 0
+  direction: higher_is_stress
+  thresholds:
+    elevated: 500
+    stress: 800
+  what: |
+    Pendant zum US-HY-Spread fuer auf Euro lautende Hochzinsanleihen. Misst die
+    Kreditrisikopraemie im europaeischen Speculative-Grade-Segment.
+  why: |
+    Reagiert zusaetzlich zu globalem Risk-Off auf europaspezifische Faktoren
+    (EZB-Politik, Peripherie-/Bankenrisiken, Energiekrise). Divergenzen zum
+    US-HY-Spread zeigen regionale Stressherde an.
+  example: |
+    Dasselbe Prinzip wie beim US-Pendant, nur fuer Hochzins-Firmen aus dem Euroraum: ein
+    hoher Aufschlag bedeutet Stress, ein niedriger Sorglosigkeit.
+
+    **So liest du die Hoehe:** 350-450 bp sind ruhig, ueber 500 bp wird es angespannt, ueber
+    800 bp herrscht echter Stress.
+
+    **Beispiele:** In der Euro-Schuldenkrise 2011/12 und im Corona-Crash 2020 schoss der
+    Aufschlag jeweils ueber 800 bp. Liegt er deutlich hoeher als der US-Wert, steckt das
+    Problem eher in Europa (z. B. Banken oder Energiekrise) als in der Weltwirtschaft.
+
+# ----------------------------------------------------------------------------
+# 2) YIELD CURVE & RATES
+# ----------------------------------------------------------------------------
+- id: us_10y
+  name: "US 10Y Treasury Yield"
+  priority: 2
+  category: rates
+  source: fred
+  series_id: DGS10
+  unit: "%"
+  decimals: 2
+  direction: neutral
+  what: |
+    Rendite 10-jaehriger US-Staatsanleihen - der globale Referenzzins fuer
+    langfristige risikofreie Verzinsung.
+  why: |
+    Diskontierungssatz fuer praktisch alle Risiko-Assets. Steigt die 10Y-Rendite,
+    sinkt der Barwert kuenftiger Cashflows (Belastung v.a. fuer Wachstums-/Tech-Aktien)
+    und Refinanzierung wird teurer. Spiegelt Wachstums-, Inflations- und Fed-Erwartungen.
+  example: |
+    Diese Rendite ist der wichtigste Zins der Welt - an ihm haengen Kredite, Hypotheken und
+    die Bewertung fast aller Anlagen.
+
+    **So liest du die Werte:** In der Niedrigzinsphase 2020 lag sie bei nur ~0,5 %. Mit dem
+    Inflationsschock stieg sie bis 2023 auf rund 5 %.
+
+    **Worauf es ankommt:** Nicht nur die Hoehe zaehlt, sondern das Tempo. Steigt die Rendite
+    schnell (wie 2022), verlieren Anleihen UND Aktien gleichzeitig an Wert, weil kuenftige
+    Gewinne staerker abgezinst werden. Besonders Tech- und Wachstumsaktien leiden darunter.
+
+- id: us_10y_2y
+  name: "US 10Y-2Y Spread"
+  priority: 3
+  category: rates
+  source: fred
+  series_id: T10Y2Y
+  unit: bp
+  display_multiplier: 100
+  decimals: 0
+  direction: lower_is_stress
+  thresholds:
+    elevated: 25
+    stress: 0
+  what: |
+    Differenz zwischen 10- und 2-jaehriger US-Rendite. Der bekannteste Indikator
+    fuer die Steilheit der Zinskurve.
+  why: |
+    Eine Inversion (Wert < 0) gilt als zuverlaessigstes Rezessionssignal der
+    Nachkriegszeit: Der Markt erwartet kuenftige Zinssenkungen wegen
+    Konjunkturabschwung. Mechanisch belastet eine flache/inverse Kurve zudem die
+    Fristentransformation der Banken (Kreditvergabe sinkt).
+  example: |
+    Diese Kennzahl vergleicht den langen mit dem kurzen Zins. Normalerweise ist der lange
+    hoeher (positiver Wert). Wird der Wert negativ ("inverse Kurve"), erwartet der Markt
+    bald sinkende Zinsen - meist wegen einer drohenden Rezession.
+
+    **So liest du die Werte:** Positiv = normal. Um 0 = Warnstufe. Negativ = klassisches
+    Rezessionssignal.
+
+    **Beispiele:** Seit Mitte 2022 war die Kurve laenger invers als je zuvor in Jahrzehnten
+    (bis ~-100 bp). Vor den Rezessionen 2001 und 2008 kam die Inversion jeweils 12-18 Monate
+    im Voraus - sie warnt also frueh, aber nicht auf den Tag genau.
+
+- id: us_10y_3m
+  name: "US 10Y-3M Spread"
+  category: rates
+  source: fred
+  series_id: T10Y3M
+  unit: bp
+  display_multiplier: 100
+  decimals: 0
+  direction: lower_is_stress
+  thresholds:
+    elevated: 25
+    stress: 0
+  what: |
+    Differenz zwischen 10-jaehriger Rendite und 3-Monats-T-Bill. Die von der Fed
+    bevorzugte Kurvenkennzahl (NY-Fed-Rezessionsmodell).
+  why: |
+    Das kurze Ende spiegelt direkt den aktuellen Leitzins. Diese Kurve invertiert,
+    wenn die Fed restriktiv ist, der Markt aber sinkendes Wachstum einpreist - laut
+    Fed-Forschung der praeziseste Vorlauf-Indikator fuer Rezessionen.
+  example: |
+    Eng verwandt mit der 10Y-2Y-Kurve, aber mit dem ganz kurzen Zins (3 Monate) verglichen.
+    Die US-Notenbank haelt diese Variante fuer das praeziseste Rezessionssignal.
+
+    **So liest du die Werte:** Positiv = normal. Negativ = der Markt rechnet damit, dass die
+    Fed die Zinsen bald senken muss, weil die Wirtschaft schwaechelt.
+
+    **Beispiel:** 2023 war diese Kurve tief invers (~-150 bp). Die New Yorker Fed rechnet
+    daraus eine monatliche Rezessionswahrscheinlichkeit aus.
+
+- id: de_10y_bund
+  name: "German 10Y Bund Yield"
+  category: rates
+  source: fred
+  series_id: IRLTLT01DEM156N
+  unit: "%"
+  decimals: 2
+  direction: neutral
+  cache_ttl_minutes: 1440
+  what: |
+    Rendite 10-jaehriger deutscher Bundesanleihen - der risikofreie Referenzzins
+    der Eurozone (monatliche Serie).
+  why: |
+    Bunds sind der Safe-Haven-Anker Europas; ihre Rendite bestimmt die
+    Finanzierungskosten in der gesamten Eurozone. Der Spread anderer Laender zum
+    Bund misst deren laenderspezifisches Risiko (z.B. Italien-Spread).
+  example: |
+    Die deutsche Bundesanleihe ist der sichere Hafen und Zins-Anker der Eurozone - das
+    Gegenstueck zur US-Staatsanleihe.
+
+    **So liest du die Werte:** 2019-2021 war die Rendite sogar negativ (bis ~-0,7 %) -
+    Anleger zahlten also fuer die Sicherheit. Mit der Zinswende 2022/23 stieg sie auf ueber
+    2,5 %.
+
+    **Wozu sie dient:** Der Abstand anderer Laender zu dieser Rendite (z. B. Italien) zeigt,
+    wie riskant der Markt diese Laender einschaetzt - ein Stressmass fuer die Eurozone.
+
+- id: fed_funds
+  name: "Effective Fed Funds Rate"
+  category: rates
+  source: fred
+  series_id: DFF
+  unit: "%"
+  decimals: 2
+  direction: neutral
+  what: |
+    Effektiver Tagesgeldsatz, zu dem sich US-Banken ueber Nacht Zentralbankreserven
+    leihen - die operative Steuerungsgroesse der Fed.
+  why: |
+    Der Leitzins ist der Ausgangspunkt der gesamten Zinsstruktur. Sein Niveau und
+    seine Aenderungsgeschwindigkeit bestimmen die Liquiditaetsbedingungen fuer alle
+    Maerkte; Straffungszyklen sind historisch oft Ausloeser von Marktverwerfungen.
+  example: |
+    Das ist der Leitzins der US-Notenbank - der Startpunkt fuer praktisch alle anderen
+    Zinsen.
+
+    **So liest du die Werte:** 2020-2022 lag er nahe 0 %. Dann folgte der schnellste
+    Zinsanstieg seit den 1980ern auf 5,25-5,50 % bis 2023.
+
+    **Worauf es ankommt:** Wie schnell die Fed anhebt, ist oft wichtiger als das Niveau.
+    Scharfe Zinserhoehungen haben in der Vergangenheit immer wieder Marktturbulenzen
+    ausgeloest, weil sie Kredit und Liquiditaet verteuern.
+
+# ----------------------------------------------------------------------------
+# 3) INFLATION EXPECTATIONS
+# ----------------------------------------------------------------------------
+- id: us_5y_breakeven
+  name: "US 5Y Breakeven Inflation"
+  category: inflation
+  source: fred
+  series_id: T5YIE
+  unit: "%"
+  decimals: 2
+  direction: neutral
+  what: |
+    Vom Markt eingepreiste durchschnittliche Inflation der naechsten 5 Jahre,
+    abgeleitet aus der Renditedifferenz nominaler Anleihen zu inflationsindexierten
+    (TIPS).
+  why: |
+    Zeigt, ob der Markt der Notenbank Glaubwuerdigkeit zuschreibt. Ein Anstieg deutet
+    auf nachlassende Inflationsverankerung; weil die Fed darauf reagiert, treibt das
+    Zins- und Aktienmarkterwartungen unmittelbar.
+  example: |
+    Diese Zahl zeigt, wie viel Inflation der Markt fuer die naechsten 5 Jahre erwartet -
+    abgeleitet aus dem Preis von Anleihen.
+
+    **So liest du die Werte:** Rund 2,0-2,3 % passt zum Ziel der Notenbank. Deutlich
+    darunter heisst Deflationsangst, deutlich darueber heisst Inflationssorge.
+
+    **Beispiele:** Im Corona-Tief (Maerz 2020) fiel der Wert auf ~0,1 % (Angst vor fallenden
+    Preisen). Im Inflationsschub 2022 stieg er auf ueber 3,5 %. Weil die Fed darauf
+    reagiert, bewegt diese Zahl direkt Zinsen und Aktien.
+
+- id: us_5y5y_forward
+  name: "US 5Y5Y Forward Inflation"
+  category: inflation
+  source: fred
+  series_id: T5YIFR
+  unit: "%"
+  decimals: 2
+  direction: neutral
+  what: |
+    Erwartete durchschnittliche Inflation fuer den 5-Jahres-Zeitraum, der in 5 Jahren
+    beginnt. Klammert kurzfristige Schocks aus und misst die "langfristige Verankerung".
+  why: |
+    Die von Notenbanken meistbeachtete marktbasierte Inflationskennzahl. Bleibt sie
+    nahe 2%, gilt die Inflation als verankert; ein Ausbruch signalisiert strukturellen
+    Glaubwuerdigkeitsverlust und erzwingt eine restriktivere Geldpolitik.
+  example: |
+    Aehnlich wie die Breakeven-Inflation, blendet aber die naechsten 5 Jahre aus und schaut
+    nur auf die 5 Jahre danach. So sieht man die langfristige Inflationserwartung, ohne
+    aktuelle Schocks.
+
+    **So liest du die Werte:** Bleibt der Wert nahe 2 %, gilt die Inflation als "verankert"
+    - der Markt vertraut der Notenbank. Bricht er deutlich aus, ist dieses Vertrauen in
+    Gefahr.
+
+    **Beispiel:** Als der Wert 2014-2016 unter 1,5 % fiel, war das ein wichtiger Grund fuer
+    das grosse Anleihekaufprogramm der EZB. Der US-Wert liegt meist zwischen 2,0 und 2,5 %.
+
+# ----------------------------------------------------------------------------
+# 4) VOLATILITY
+# ----------------------------------------------------------------------------
+- id: vix
+  name: "CBOE VIX (Equity Volatility)"
+  priority: 3
+  category: volatility
+  source: fred
+  series_id: VIXCLS
+  unit: Index
+  decimals: 1
+  direction: higher_is_stress
+  thresholds:
+    elevated: 20
+    stress: 30
+  what: |
+    Aus S&P-500-Optionen abgeleitete erwartete 30-Tage-Volatilitaet ("Angstbarometer").
+    Misst, wie stark der Markt kuenftige Schwankungen einpreist.
+  why: |
+    Steigt mechanisch, wenn Investoren Absicherung (Puts) nachfragen - typisch in
+    Stressphasen. Hohe VIX-Werte zwingen volatilitaetsgesteuerte Strategien zum
+    Verkauf, was Abwaertsbewegungen verstaerkt (reflexive Dynamik).
+  example: |
+    Der VIX ist das "Angstbarometer" der Boerse: Er misst, wie starke Schwankungen der Markt
+    fuer die naechsten 30 Tage erwartet. Hohe Werte = Nervositaet.
+
+    **So liest du die Werte:** 12-16 ist ruhig. Ueber 20 wird der Markt unruhig. Ueber 30
+    herrscht Panik.
+
+    **Beispiele:** Im Corona-Crash (Maerz 2020) schoss der VIX auf ~82, in der Finanzkrise
+    2008 auf ~80. Umgekehrt ist auch ein dauerhaft sehr niedriger VIX (unter 13) ein
+    Warnsignal - dann ist der Markt vielleicht zu sorglos.
+
+# ----------------------------------------------------------------------------
+# 5) FX
+# ----------------------------------------------------------------------------
+- id: dxy
+  name: "US Dollar Index"
+  priority: 2
+  category: fx
+  source: stooq
+  symbol: "^dxy"
+  unit: Index
+  decimals: 2
+  direction: neutral
+  what: |
+    Wert des US-Dollar gegen einen Korb von 6 Hauptwaehrungen (v.a. EUR, JPY, GBP).
+    Der wichtigste Gradmesser fuer die globale Dollar-Staerke.
+  why: |
+    Der Dollar ist die globale Funding- und Reservewaehrung. Ein starker Dollar strafft
+    weltweit die Finanzbedingungen, belastet Rohstoffe (in USD notiert) und
+    Schwellenlaender mit Dollar-Schulden - oft ein Risk-Off-Signal.
+  example: |
+    Der Dollar-Index zeigt, wie stark der US-Dollar gegenueber anderen wichtigen Waehrungen
+    (v.a. Euro, Yen, Pfund) ist.
+
+    **Warum das wichtig ist:** Ein starker Dollar macht weltweit Geld teurer - er belastet
+    Rohstoffe (in Dollar gehandelt) und Schwellenlaender mit Dollar-Schulden. Steigt der
+    Index stark, ist das oft ein Risk-Off-Signal (Anleger werden vorsichtig).
+
+    **Beispiele:** In Krisen fluechten viele in den Dollar (Corona 2020, Zinswende 2022 mit
+    Werten ueber 114). Ein schwacher Dollar (unter 95) geht dagegen meist mit guter
+    Risikostimmung einher.
+
+- id: eur_usd
+  name: "EUR/USD"
+  category: fx
+  source: stooq
+  symbol: eurusd
+  unit: Rate
+  decimals: 4
+  direction: neutral
+  what: |
+    Wechselkurs Euro zu US-Dollar - das meistgehandelte Waehrungspaar der Welt.
+  why: |
+    Spiegelt die relative Geldpolitik und Konjunktur von EZB und Fed sowie globale
+    Risikostimmung. Faellt in europaeischen Stressphasen, steigt bei Dollar-Schwaeche.
+  example: |
+    Das meistgehandelte Waehrungspaar der Welt - es zeigt, wie viele Dollar ein Euro kostet.
+
+    **Was es bewegt:** Vor allem der Zinsunterschied und die Konjunktur zwischen Europa und
+    den USA sowie die allgemeine Risikostimmung. In europaeischen Krisen faellt der Euro, bei
+    Dollar-Schwaeche steigt er.
+
+    **Beispiel:** Im Energiekrisen-Herbst 2022 fiel EUR/USD erstmals seit 20 Jahren unter die
+    Paritaet (1,00) - ein Euro war also kurzzeitig weniger als ein Dollar wert.
+
+- id: eur_chf
+  name: "EUR/CHF"
+  category: fx
+  source: stooq
+  symbol: eurchf
+  unit: Rate
+  decimals: 4
+  direction: neutral
+  what: |
+    Wechselkurs Euro zu Schweizer Franken. Der Franken ist die klassische
+    europaeische Safe-Haven-Waehrung.
+  why: |
+    Faellt (CHF-Staerke), wenn Investoren in Krisenphasen Sicherheit suchen - ein
+    sensibler Stimmungsindikator fuer europaeisches Risiko. Lange von der SNB verteidigt.
+  example: |
+    Der Schweizer Franken ist Europas klassische "sichere Hafen"-Waehrung. Dieser Kurs
+    zeigt, wie viele Franken ein Euro kostet.
+
+    **Wie man ihn liest:** Faellt der Kurs (Franken wird staerker), suchen Anleger Sicherheit
+    - ein Warnsignal fuer europaeisches Risiko. Ein stabiler oder steigender Kurs deutet auf
+    Entspannung.
+
+    **Beispiel:** Als die Schweizer Notenbank im Januar 2015 ueberraschend ihren Mindestkurs
+    aufgab, stuerzte EUR/CHF binnen Minuten von 1,20 auf unter Paritaet - eine der
+    heftigsten Waehrungsbewegungen ueberhaupt.
+
+# ----------------------------------------------------------------------------
+# 6) COMMODITIES
+# ----------------------------------------------------------------------------
+- id: gold
+  name: "Gold (USD/oz)"
+  category: commodities
+  source: stooq
+  symbol: xauusd
+  unit: USD
+  decimals: 0
+  direction: neutral
+  what: |
+    Goldpreis je Feinunze in USD (Spot; via stooq mit Yahoo-Fallback, da FRED die
+    London-Fixings eingestellt hat). Wertaufbewahrungsmittel ohne Gegenparteirisiko.
+  why: |
+    Profitiert von Realzins-Rueckgang (geringere Opportunitaetskosten), Dollar-Schwaeche,
+    geopolitischem Stress und Notenbankkaeufen. Dient als Inflations- und Krisenhedge.
+  example: |
+    Gold gilt seit jeher als Wertspeicher und Krisenschutz - ein "Versicherungs-Asset" ohne
+    Gegenpartei.
+
+    **Was Gold treibt:** Es profitiert, wenn die real (nach Inflation) erzielbaren Zinsen
+    sinken, der Dollar schwaechelt, geopolitischer Stress steigt oder Notenbanken kraeftig
+    zukaufen.
+
+    **Beispiele:** Gold erreichte 2020 (ueber 2000 USD) und erneut 2024 Rekorde - getrieben
+    von niedrigen Realzinsen, kaufenden Notenbanken und politischen Krisen.
+
+- id: brent
+  name: "Brent Crude Oil"
+  category: commodities
+  source: fred
+  series_id: DCOILBRENTEU
+  unit: USD/bbl
+  decimals: 2
+  direction: neutral
+  what: |
+    Preis je Barrel der Nordsee-Sorte Brent - die globale Oel-Referenz.
+  why: |
+    Direkter Treiber von Schlagzeilen-Inflation und Konsumentenkaufkraft. Steigende
+    Preise wirken wie eine Steuer auf Wachstum; Einbrueche signalisieren oft
+    Nachfrageschwaeche/Rezessionsangst. Angebotsschocks (OPEC, Kriege) sind Stressquellen.
+  example: |
+    Brent ist die globale Referenzsorte fuer Rohoel - der Preis schlaegt direkt auf Benzin,
+    Heizkosten und Inflation durch.
+
+    **Wie man ihn liest:** Steigende Preise wirken wie eine Steuer auf Wachstum und treiben
+    die Inflation. Stark fallende Preise deuten oft auf eine schwache Nachfrage hin - also
+    auf Konjunktur- oder Rezessionssorgen.
+
+    **Beispiele:** Im Corona-Nachfragekollaps fiel der verwandte US-Oelpreis (WTI) im April
+    2020 sogar kurz unter null. Nach dem russischen Angriff auf die Ukraine 2022 sprang Brent
+    ueber 120 USD.
+
+- id: copper
+  name: "Copper Futures (Dr. Copper)"
+  category: commodities
+  source: stooq
+  symbol: hg.f
+  unit: USD/lb
+  decimals: 2
+  direction: neutral
+  what: |
+    Preis von Kupfer-Futures. Wegen seiner breiten industriellen Verwendung
+    "Dr. Copper" - ein Rohstoff mit "Doktortitel in Oekonomie".
+  why: |
+    Kupfernachfrage haengt eng an Bau, Industrie und Elektrifizierung. Der Preis gilt
+    daher als Echtzeit-Barometer der globalen (besonders chinesischen) Konjunktur -
+    steigend bei Aufschwung, fallend bei Abkuehlung.
+  example: |
+    Kupfer steckt in Bau, Industrie und Elektroautos - daher der Spitzname "Dr. Copper":
+    Der Preis hat quasi einen "Doktortitel in Konjunktur".
+
+    **Wie man ihn liest:** Ein steigender Kupferpreis deutet auf eine brummende
+    Weltwirtschaft (besonders China), ein fallender auf Abkuehlung. Kupfer ist damit ein
+    Echtzeit-Stimmungsbild der Realwirtschaft.
+
+    **Beispiel:** 2020/21 stieg der Preis steil - getragen von der Konjunkturerholung und dem
+    Boom der Elektromobilitaet. Schwaeche signalisiert dagegen oft Sorgen um Chinas Wachstum.
+
+# ----------------------------------------------------------------------------
+# 7) EQUITIES
+# ----------------------------------------------------------------------------
+- id: sp500
+  name: "S&P 500"
+  priority: 2
+  category: equities
+  source: stooq
+  symbol: "^spx"
+  unit: Index
+  decimals: 0
+  direction: neutral
+  what: |
+    Kapitalisierungsgewichteter Index der 500 groessten US-Unternehmen - die globale
+    Leitboerse.
+  why: |
+    Referenz-Risikobarometer der Welt; bestimmt Stimmung und Vermoegenseffekte global.
+    Wegen hoher Indexkonzentration zunehmend von wenigen Mega-Caps getrieben (siehe
+    Breadth-Indikatoren).
+  example: |
+    Der S&P 500 buendelt die 500 groessten US-Konzerne und ist die wichtigste Boerse der Welt
+    - der Massstab fuer "den Markt".
+
+    **Wie man ihn liest:** Er ist das globale Stimmungsbarometer schlechthin. Eine
+    Besonderheit heute: Wenige Tech-Giganten haben grosses Gewicht und treiben den Index
+    ueberproportional (siehe die Marktbreite-Indikatoren).
+
+    **Beispiele:** Im Corona-Crash (Maerz 2020) fiel er in wenigen Wochen um 34 % und
+    erholte sich dann zu neuen Rekorden. Im Baermarkt 2022 verlor er rund 25 %.
+
+- id: stoxx600
+  name: "Stoxx Europe 600"
+  category: equities
+  source: stooq
+  symbol: "^stoxx"
+  unit: Index
+  decimals: 1
+  direction: neutral
+  what: |
+    Breiter europaeischer Aktienindex mit 600 Unternehmen aus 17 Laendern.
+  why: |
+    Bester Gesamtindikator fuer europaeische Aktien. Staerker von Banken, Industrie und
+    zyklischen Werten gepraegt als der US-Markt - daher sensibler fuer globale
+    Konjunktur und Energiepreise.
+  example: |
+    Der breiteste Index fuer europaeische Aktien - 600 Unternehmen aus 17 Laendern.
+
+    **Wie man ihn liest:** Er enthaelt mehr Banken, Industrie und zyklische Werte als der
+    US-Markt. Deshalb reagiert er empfindlicher auf die Weltkonjunktur und auf Energiepreise.
+
+    **Beispiel:** Ueber die 2010er-Jahre blieb Europa klar hinter den USA zurueck, und die
+    Energiekrise 2022 belastete den Index zusaetzlich.
+
+- id: dax
+  name: "DAX"
+  category: equities
+  source: stooq
+  symbol: "^dax"
+  unit: Index
+  decimals: 0
+  direction: neutral
+  what: |
+    Deutscher Leitindex (40 Werte, Performanceindex inkl. Dividenden). Stark
+    exportorientiert.
+  why: |
+    Hoher Anteil globaler Zykliker (Auto, Chemie, Maschinenbau) macht den DAX zu einem
+    Hebel auf Welthandel und China-Nachfrage. Reagiert sensibel auf Euro-Kurs und
+    Energiekosten.
+  example: |
+    Der deutsche Leitindex aus 40 grossen Unternehmen - stark exportlastig (Autos, Chemie,
+    Maschinenbau).
+
+    **Wie man ihn liest:** Weil viele DAX-Konzerne ihr Geld weltweit verdienen, ist der Index
+    ein Hebel auf Welthandel und China-Nachfrage - oft staerker als auf die deutsche
+    Binnenkonjunktur. Euro-Kurs und Energiekosten spielen eine grosse Rolle.
+
+    **Beispiel:** 2023 stieg der DAX erstmals ueber 16.000 Punkte - trotz schwacher Konjunktur
+    in Deutschland, getragen vom globalen Geschaeft der Konzerne.
+
+- id: atx
+  name: "ATX (Vienna)"
+  category: equities
+  source: stooq
+  symbol: "^atx"
+  unit: Index
+  decimals: 0
+  direction: neutral
+  what: |
+    Oesterreichischer Leitindex der Wiener Boerse. Stark gewichtet in Banken,
+    Versicherungen und Industrie mit Osteuropa-Bezug.
+  why: |
+    Hoher Finanz- und CEE-Anteil macht den ATX zum Hebel auf osteuropaeisches Risiko und
+    europaeische Bankenstimmung - oft volatiler als breite Indizes.
+  example: |
+    Der oesterreichische Leitindex der Wiener Boerse - mit hohem Gewicht von Banken,
+    Versicherungen und Industrie mit Osteuropa-Geschaeft.
+
+    **Wie man ihn liest:** Durch den starken Finanz- und Osteuropa-Anteil ist der ATX ein
+    Hebel auf osteuropaeisches Risiko und die Stimmung der europaeischen Banken - und damit
+    oft schwankungsfreudiger als breite Indizes.
+
+    **Beispiel:** In der Euro-Schuldenkrise und zu Beginn des Ukraine-Kriegs 2022 brach der
+    ATX deutlich ein, weil die heimischen Banken stark in Osteuropa engagiert sind.
+
+- id: msci_em_etf
+  name: "MSCI EM (EEM ETF Proxy)"
+  category: equities
+  source: stooq
+  symbol: eem.us
+  unit: USD
+  decimals: 2
+  direction: neutral
+  what: |
+    iShares-MSCI-Emerging-Markets-ETF als handelbarer Proxy fuer Schwellenlaender-Aktien
+    (hoher China-, Taiwan-, Indien-Anteil).
+  why: |
+    Schwellenlaender sind der Hebel auf globalen Risikoappetit und den Dollar: Ein starker
+    Dollar und steigende US-Zinsen ziehen Kapital ab und straffen ihre Finanzbedingungen.
+    Outperformance signalisiert oft globale Risk-On-Phasen.
+  example: |
+    Dieser ETF buendelt Aktien aus Schwellenlaendern (viel China, Taiwan, Indien) und dient
+    als handelbarer Stellvertreter fuer "Emerging Markets".
+
+    **Wie man ihn liest:** Schwellenlaender sind ein Hebel auf die globale Risikolust und den
+    Dollar: Ein starker Dollar und steigende US-Zinsen ziehen Kapital ab. Laeuft dieser ETF
+    besser als US-Aktien, ist das oft ein Zeichen guter Risikostimmung weltweit.
+
+    **Beispiel:** Im Dollar-Bullenmarkt 2021/22 blieb er klar hinter den USA zurueck. Das
+    hohe China-Gewicht macht ihn zudem anfaellig fuer dortige Regulierungs- und
+    Wachstumsschocks.
+
+# ----------------------------------------------------------------------------
+# 8) MARKET BREADTH & CONCENTRATION
+# ----------------------------------------------------------------------------
+- id: russell_2000
+  name: "Russell 2000"
+  category: breadth
+  source: stooq
+  symbol: "^rut"
+  unit: Index
+  decimals: 0
+  direction: neutral
+  what: |
+    Index der 2000 kleinsten Unternehmen des Russell-3000 - das US-Small-Cap-Barometer.
+  why: |
+    Small Caps sind binnenkonjunktur- und finanzierungssensibler als Mega-Caps. Ihre
+    relative Staerke gilt als Zeichen breiter, gesunder Marktphasen; Schwaeche deutet auf
+    Spaetzyklus oder Kreditstress (hoeherer Anteil unprofitabler, verschuldeter Firmen).
+  example: |
+    Der Russell 2000 buendelt 2000 kleinere US-Firmen ("Small Caps") - das Gegenstueck zu
+    den grossen Konzernen.
+
+    **Wie man ihn liest:** Kleine Firmen haengen staerker an der heimischen Konjunktur und an
+    guenstigen Krediten. Laufen sie gut, ist der Aufschwung "breit" und gesund. Bleiben sie
+    zurueck, deutet das auf Spaetzyklus oder Kreditstress hin - viele Small Caps sind
+    verschuldet oder unprofitabel.
+
+    **Beispiel:** 2022-2024 blieben die Small Caps deutlich hinter dem S&P 500 zurueck, weil
+    hoehere Zinsen sie besonders hart trafen.
+
+- id: r2k_sp500_ratio
+  name: "Russell 2000 / S&P 500 Ratio"
+  category: breadth
+  source: computed
+  formula: "norm100(stooq:^rut / stooq:^spx)"
+  unit: Ratio
+  decimals: 1
+  direction: lower_is_stress
+  what: |
+    Verhaeltnis von Small-Cap- zu Large-Cap-Index, normiert auf Startwert 100. Ein
+    direkter Breadth-Indikator (Marktbreite).
+  why: |
+    Steigt das Verhaeltnis, partizipieren auch kleinere Firmen am Aufschwung - ein
+    gesundes, breites Marktbild. Faellt es, traegt nur eine schmale Spitze den Markt,
+    was historisch zyklische Wendepunkte und erhoehte Fragilitaet markiert.
+  example: |
+    Diese Kennzahl teilt den Small-Cap-Index durch den S&P 500 (auf Start 100 normiert). Sie
+    zeigt mit einem Blick, ob auch kleinere Firmen mitlaufen - oder nur die Grossen.
+
+    **Wie man sie liest:** Steigt die Linie, ist der Aufschwung "breit" und gesund. Faellt
+    sie, traegt nur eine schmale Spitze den Markt - historisch ein Zeichen fuer Wendepunkte
+    und erhoehte Anfaelligkeit.
+
+    **Beispiel:** Von 2021 bis 2024 fiel die Linie fast durchgehend, weil die "Magnificent 7"
+    (die grossen Tech-Werte) den S&P trugen, waehrend die kleinen Firmen zurueckblieben.
+
+- id: rsp_spy_ratio
+  name: "Equal-Weight / Cap-Weight S&P Ratio"
+  category: breadth
+  source: computed
+  formula: "norm100(stooq:rsp.us / stooq:spy.us)"
+  unit: Ratio
+  decimals: 1
+  direction: lower_is_stress
+  what: |
+    Verhaeltnis des gleichgewichteten S&P 500 (RSP) zum kapitalisierungsgewichteten
+    (SPY), normiert auf 100. Direktes Mass fuer Indexkonzentration.
+  why: |
+    Faellt das Verhaeltnis, schlagen die groessten Werte den Durchschnitt - der Index
+    haengt zunehmend an wenigen Aktien (Klumpenrisiko). Solche Phasen sind anfaellig,
+    wenn die Fuehrungstitel drehen, weil dann keine Breite stuetzt.
+  example: |
+    Diese Kennzahl vergleicht zwei Versionen des S&P 500: eine, in der jede Aktie gleich
+    zaehlt (RSP), und die normale, in der die Grossen dominieren (SPY). So sieht man, wie
+    stark der Index von wenigen Riesen abhaengt.
+
+    **Wie man sie liest:** Faellt die Linie, schlagen die groessten Werte den Durchschnitt -
+    der Index haengt dann an wenigen Aktien (Klumpenrisiko). Drehen diese, fehlt die Breite,
+    die ihn stuetzt.
+
+    **Beispiel:** 2023/24 erreichte die Konzentration durch die KI-Rally der Tech-Giganten
+    den hoechsten Stand seit Jahrzehnten - die Linie fiel auf markante Tiefs.
+
+# ----------------------------------------------------------------------------
+# 10) VALUATION  (Slice: nur Buffett-Indikator; CAPE/ERP folgen mit Shiller)
+# ----------------------------------------------------------------------------
+- id: buffett_indicator
+  name: "Buffett Indicator (Market Cap / GDP)"
+  category: valuation
+  source: computed
+  # NCBEILQ027S (Fed Z.1, Marktwert der Aktien nichtfinanzieller US-Unternehmen) steht in
+  # Mio USD, GDP in Mrd USD -> /10 ergibt Prozent. (Wilshire-Serie von FRED eingestellt.)
+  formula: "fred:NCBEILQ027S / fred:GDP / 10"
+  unit: "%"
+  decimals: 1
+  direction: higher_is_stress
+  cache_ttl_minutes: 1440
+  what: |
+    Verhaeltnis der gesamten US-Aktienmarktkapitalisierung zum Bruttoinlandsprodukt.
+    Datenbasis: Fed-Z.1-Marktwert der Unternehmensaktien (NCBEILQ027S) geteilt durch GDP.
+    Von Warren Buffett als "wohl bestes Einzelmass fuer Bewertung" bezeichnet.
+  why: |
+    Setzt den Marktwert ins Verhaeltnis zur realwirtschaftlichen Leistung. Hohe Werte
+    bedeuten, dass Aktien teuer relativ zur Wirtschaft sind - historisch mit niedrigeren
+    langfristigen Renditen verbunden. Da die Komponenten quartalsweise vorliegen, ist die
+    Reihe vierteljaehrlich; die Einordnung erfolgt ueber das 10-Jahres-Percentil.
+  example: |
+    Diese Kennzahl setzt den Gesamtwert aller US-Aktien ins Verhaeltnis zur
+    Wirtschaftsleistung (BIP). Sie beantwortet die Frage: Ist die Boerse im Vergleich zur
+    realen Wirtschaft teuer oder guenstig? Warren Buffett nannte sie das "wohl beste
+    Einzelmass fuer Bewertung".
+
+    **Wie man sie liest:** Hohe Werte bedeuten, dass Aktien teuer sind - historisch folgten
+    darauf magere langfristige Renditen. Es ist ein Mass fuer das Risiko auf Jahre, kein
+    Signal fuer das Timing.
+
+    **Beispiele:** Auf dem Dotcom-Hoch 2000 und im Jahr 2021 erreichte die Kennzahl
+    historische Extremwerte. Liegt sie weit ueber dem langjaehrigen Schnitt, gilt das als
+    Spaetzyklus-Warnung.
+
+# ----------------------------------------------------------------------------
+# 11) LIQUIDITY & MONEY
+# ----------------------------------------------------------------------------
+- id: fed_balance_sheet
+  name: "Fed Total Assets"
+  category: liquidity
+  source: fred
+  series_id: WALCL
+  unit: "Mrd USD"
+  display_multiplier: 0.001
+  decimals: 0
+  direction: higher_is_supportive
+  cache_ttl_minutes: 1440
+  what: |
+    Bilanzsumme der US-Notenbank (woechentlich). Waechst durch
+    Anleihekaeufe (QE), schrumpft durch Bilanzabbau (QT).
+  why: |
+    QE schafft Bankreserven und draengt Investoren in Risiko-Assets (Portfolio-Balance-
+    Effekt); QT entzieht dem System Liquiditaet. Wendepunkte der Bilanzpolitik fielen
+    historisch mit grossen Markttrendwechseln zusammen.
+  example: |
+    Die Bilanzsumme der US-Notenbank zeigt, wie viel Geld sie ins Finanzsystem pumpt. Sie
+    waechst, wenn die Fed Anleihen kauft (genannt QE), und schrumpft, wenn sie das
+    zurueckfaehrt (QT).
+
+    **Wie man sie liest:** Eine wachsende Bilanz schiebt Anleger in riskantere Anlagen und
+    stuetzt die Maerkte; eine schrumpfende entzieht Liquiditaet. Wendepunkte dieser Politik
+    fielen oft mit grossen Trendwechseln an den Maerkten zusammen.
+
+    **Beispiel:** Durch die Corona-Hilfen wuchs die Bilanz von ~4 Billionen auf ~9 Billionen
+    USD (2020-2022) und schrumpfte danach wieder.
+
+- id: m2_money_supply
+  name: "US M2 Money Supply"
+  category: liquidity
+  source: fred
+  series_id: M2SL
+  unit: "Mrd USD"
+  decimals: 0
+  direction: higher_is_supportive
+  cache_ttl_minutes: 1440
+  what: |
+    Breite Geldmenge M2 (Bargeld, Sichteinlagen, Spareinlagen, Geldmarktfonds),
+    monatlich.
+  why: |
+    Misst die im Wirtschaftskreislauf verfuegbare Geldmenge. Starkes Wachstum kann
+    Vermoegenspreise und Inflation treiben; der erste M2-Rueckgang seit Jahrzehnten
+    (2022/23) galt als Signal verschaerfter Geldbedingungen.
+  example: |
+    M2 ist die breite Geldmenge: Bargeld, Giro- und Sparguthaben sowie Geldmarktfonds - also
+    wie viel Geld insgesamt im Umlauf ist.
+
+    **Wie man sie liest:** Waechst die Geldmenge stark, kann das Vermoegenspreise und
+    Inflation antreiben. Schrumpft sie, sind die Geldbedingungen straff.
+
+    **Beispiel:** 2020/21 sprang M2 historisch stark (Staatshilfen plus Anleihekaeufe).
+    2022/23 fiel sie erstmals seit den 1930er-Jahren im Jahresvergleich - ein deutliches
+    Signal verschaerfter Geldbedingungen.
+
+- id: reverse_repo
+  name: "Fed Reverse Repo Facility (ON RRP)"
+  category: liquidity
+  source: fred
+  series_id: RRPONTSYD
+  unit: "Mrd USD"
+  decimals: 0
+  direction: neutral
+  what: |
+    Volumen, das Geldmarktfonds und Banken ueber Nacht bei der Fed parken (Overnight
+    Reverse Repo). Eine Art Liquiditaets-Parkplatz.
+  why: |
+    Ein hoher RRP-Bestand bindet ueberschuessige Liquiditaet bei der Fed; sein Abschmelzen
+    setzt Reserven frei, die ins Bankensystem und potenziell in Risiko-Assets fliessen.
+    Daher Schluesselgroesse der Net-Liquidity-Berechnung.
+  example: |
+    Diese Zahl zeigt, wie viel Geld Banken und Geldmarktfonds ueber Nacht bei der Fed
+    "parken", statt es im Markt einzusetzen - eine Art Liquiditaets-Parkplatz.
+
+    **Wie man sie liest:** Ein hoher Bestand bindet ueberschuessiges Geld bei der Fed.
+    Schmilzt er ab, fliesst dieses Geld zurueck ins Bankensystem und potenziell in riskantere
+    Anlagen - er ist deshalb ein Baustein der "Netto-Liquiditaet".
+
+    **Beispiel:** 2022/23 stieg der Bestand auf ueber 2,5 Billionen USD (zu viel Geld im
+    System), schmolz danach aber stark ab und stuetzte so den Markt.
+
+- id: tga
+  name: "Treasury General Account (TGA)"
+  category: liquidity
+  source: fred
+  series_id: WTREGEN
+  unit: "Mrd USD"
+  display_multiplier: 0.001
+  decimals: 0
+  direction: neutral
+  cache_ttl_minutes: 1440
+  what: |
+    Das "Girokonto" des US-Finanzministeriums bei der Fed (woechentlich). Steigt durch
+    Steuereinnahmen/Anleiheemissionen, faellt durch Staatsausgaben.
+  why: |
+    Ein TGA-Aufbau zieht Liquiditaet aus dem Bankensystem (Geld wandert von Banken zur
+    Fed), ein Abbau speist sie ein. Besonders nach Schuldenobergrenzen-Deals (TGA-Refill)
+    ein wichtiger, oft unterschaetzter Liquiditaetstreiber.
+  example: |
+    Das ist das "Girokonto" des US-Finanzministeriums bei der Fed. Es fuellt sich durch
+    Steuern und Anleiheverkaeufe und leert sich durch Staatsausgaben.
+
+    **Wie man es liest:** Fuellt sich das Konto, zieht der Staat Geld aus dem Bankensystem ab
+    (belastet die Maerkte). Leert es sich, fliesst Geld zurueck (stuetzt sie). Ein oft
+    unterschaetzter Liquiditaetstreiber.
+
+    **Beispiel:** Nach dem Schuldenstreit im Juni 2023 fuellte das Finanzministerium das
+    Konto rasch wieder auf und entzog dem Markt mehrere hundert Milliarden USD.
+
+- id: net_liquidity
+  name: "Fed Net Liquidity"
+  priority: 3
+  category: liquidity
+  source: computed
+  # RRPONTSYD steht in Mrd USD, WALCL/WTREGEN in Mio USD -> RRP *1000 angleichen.
+  formula: "fred:WALCL - fred:WTREGEN - fred:RRPONTSYD * 1000"
+  unit: "Mrd USD"
+  display_multiplier: 0.001
+  decimals: 0
+  direction: higher_is_supportive
+  cache_ttl_minutes: 1440
+  what: |
+    Liquiditaetskennzahl, die Makro-Trader taeglich beobachten: Fed-Bilanzsumme
+    abzueglich Treasury General Account und Reverse-Repo-Bestand. Reflektiert die
+    tatsaechlich im Bankensystem verfuegbaren Reserven.
+  why: |
+    Stark korreliert mit der Performance von Risiko-Assets (S&P 500, BTC) seit 2020:
+    TGA-Aufbau und RRP-Zuwachs ziehen Liquiditaet ab (Risk-Off-Druck), ihr Abbau wirkt
+    stuetzend. Besonders relevant um QE/QT-Wenden und TGA-Refill-Phasen.
+  example: |
+    Diese Kennzahl fasst drei Liquiditaets-Groessen zusammen: Fed-Bilanz minus Staats-
+    Girokonto (TGA) minus geparktes Geld (Reverse Repo). Ergebnis ist das Geld, das
+    tatsaechlich frei im Bankensystem zirkuliert.
+
+    **Wie man sie liest:** Steigt die Netto-Liquiditaet, ist Rueckenwind fuer riskante
+    Anlagen da; faellt sie, herrscht Gegenwind. Seit 2020 laeuft sie auffallend im Gleichlauf
+    mit S&P 500 und Bitcoin.
+
+    **Beispiel:** Vom Hoch (~6,3 Billionen USD, Maerz 2022) fiel sie bis Okt. 2023 auf ~5,3
+    Billionen. Nach dem Schuldenstreit Juni 2023 entzog das Auffuellen des Staatskontos dem
+    Markt binnen Wochen rund 500 Milliarden USD.
+
+# ----------------------------------------------------------------------------
+# 12) CRYPTO
+# ----------------------------------------------------------------------------
+- id: btc
+  name: "Bitcoin"
+  priority: 1
+  category: crypto
+  source: coingecko
+  symbol: bitcoin
+  unit: USD
+  decimals: 0
+  direction: neutral
+  what: |
+    Preis von Bitcoin in US-Dollar - das groesste und liquideste Krypto-Asset.
+  why: |
+    Gilt als sensibelstes Risk-On-Barometer und reagiert stark auf globale Liquiditaet
+    (siehe Net Liquidity) und Realzinsen. Hohe Volatilitaet macht BTC zum Fruehindikator
+    fuer Stimmungswechsel am spekulativen Rand.
+  example: |
+    Bitcoin ist die groesste und liquideste Kryptowaehrung - und das wohl empfindlichste
+    "Risk-On"-Barometer ueberhaupt.
+
+    **Wie man ihn liest:** Bitcoin reagiert stark auf die globale Liquiditaet (siehe Netto-
+    Liquiditaet) und die Realzinsen. Wegen seiner hohen Schwankungen dreht er oft frueh, wenn
+    die Risikostimmung kippt.
+
+    **Beispiel:** Vom Allzeithoch 2021 (~69.000 USD) ging es im Baermarkt 2022 auf ~16.000
+    USD hinunter, gefolgt von der Erholung 2023/24 - eng gekoppelt an die
+    Liquiditaetsbedingungen.
+
+- id: eth
+  name: "Ethereum"
+  category: crypto
+  source: coingecko
+  symbol: ethereum
+  unit: USD
+  decimals: 0
+  direction: neutral
+  what: |
+    Preis von Ethereum in US-Dollar - die fuehrende Smart-Contract-Plattform und
+    zweitgroesstes Krypto-Asset.
+  why: |
+    Als hoeher-Beta-Asset gegenueber BTC verstaerkt ETH Risk-On/Risk-Off-Bewegungen.
+    Das ETH/BTC-Verhaeltnis dient vielen als Mass fuer den Risikoappetit innerhalb des
+    Krypto-Sektors.
+  example: |
+    Ethereum ist die fuehrende Plattform fuer "Smart Contracts" und die zweitgroesste
+    Kryptowaehrung nach Bitcoin.
+
+    **Wie man ihn liest:** Ether schwankt meist noch staerker als Bitcoin - er verstaerkt
+    Auf- und Abwaertsbewegungen. Das Verhaeltnis Ether zu Bitcoin gilt vielen als Mass fuer
+    die Risikolust innerhalb des Krypto-Markts.
+
+    **Beispiel:** Im September 2022 stellte Ethereum seine Technik auf das sparsamere "Proof
+    of Stake" um (der "Merge") - ein Meilenstein. Der Kurs laeuft grob mit Bitcoin, aber mit
+    groesseren Ausschlaegen.
+
+# ----------------------------------------------------------------------------
+# 9) SENTIMENT & POSITIONING  (Spezialquellen)
+# ----------------------------------------------------------------------------
+- id: cnn_fear_greed
+  name: "CNN Fear & Greed Index"
+  priority: 2
+  category: sentiment
+  source: cnn
+  symbol: fear_greed
+  unit: "0-100"
+  decimals: 0
+  direction: lower_is_stress
+  thresholds:
+    elevated: 45
+    stress: 25
+  what: |
+    Zusammengesetzter Stimmungsindex (0 = extreme Angst, 100 = extreme Gier) aus
+    sieben Teilindikatoren (u.a. Momentum, Vola, Put/Call, Safe-Haven-Nachfrage).
+  why: |
+    Buehne fuer Behavioral Finance: Extreme Angst (<25) markiert oft Kapitulation und
+    damit antizyklische Kaufgelegenheiten, extreme Gier (>75) Sorglosigkeit und
+    Rueckschlagrisiko. Funktioniert als Kontraindikator an den Extremen.
+  example: |
+    Dieser Index fasst die Boersenstimmung in einer Zahl von 0 bis 100 zusammen: 0 = extreme
+    Angst, 100 = extreme Gier. Er wird aus sieben Bausteinen berechnet (u.a. Schwankungen,
+    Put/Call-Verhaeltnis, Nachfrage nach sicheren Anlagen).
+
+    **Wie man ihn liest:** An den Extremen wirkt er oft als Gegenindikator. Sehr grosse Angst
+    (unter 25) faellt haeufig mit Tiefpunkten zusammen (Kaufgelegenheiten), grosse Gier
+    (ueber 75) mit Sorglosigkeit und Rueckschlagrisiko.
+
+    **Beispiel:** Im Corona-Crash (Maerz 2020) rutschte der Index in den einstelligen
+    Bereich. Phasen mit Werten ueber 80 gingen mehrfach kurzen Rueckschlaegen voraus.
+
+- id: naaim_exposure
+  name: "NAAIM Manager Exposure Index"
+  category: sentiment
+  source: naaim
+  symbol: exposure
+  unit: "%"
+  decimals: 0
+  direction: neutral
+  cache_ttl_minutes: 1440
+  what: |
+    Durchschnittliche Aktienquote aktiver US-Vermoegensverwalter (NAAIM-Mitglieder),
+    woechentlich erhoben. Reicht von stark short (negativ) bis gehebelt long (>100 %).
+  why: |
+    Zeigt die tatsaechliche Positionierung professioneller Trader (nicht nur Meinung).
+    Sehr hohe Quoten signalisieren "all in"-Risiko (wenig Nachkaufpotenzial), sehr
+    niedrige defensive Zurueckhaltung - an den Extremen ein Kontraindikator.
+  example: |
+    Diese woechentliche Umfrage zeigt, wie stark aktive US-Vermoegensverwalter gerade in
+    Aktien investiert sind. Die Werte reichen von stark fallend gesetzt (negativ) bis ueber
+    100 % (auf Kredit investiert).
+
+    **Wie man sie liest:** Sie zeigt echtes Verhalten, nicht nur Meinungen. Sehr hohe Quoten
+    bedeuten "alle sind schon investiert" (wenig Nachschub fuer steigende Kurse), sehr
+    niedrige bedeuten Vorsicht - an den Extremen ein Gegenindikator.
+
+    **Beispiel:** In Korrekturen faellt die Quote Richtung 0 % oder darunter, in euphorischen
+    Phasen steigt sie auf oder ueber 100 %.
+
+- id: cboe_put_call_total
+  name: "CBOE Total Put/Call Ratio"
+  category: sentiment
+  source: cboe
+  symbol: total
+  unit: Ratio
+  decimals: 2
+  direction: higher_is_stress
+  what: |
+    Verhaeltnis gehandelter Put- zu Call-Optionen am US-Gesamtmarkt. Misst, wie stark
+    sich Anleger gegen Kursrueckgaenge absichern. (CBOE-Quelle; bezogen ueber den
+    oeffentlichen CNN-Datensatz, da CBOE den freien Zugang eingestellt hat.)
+  why: |
+    Hohe Werte (viele Puts) zeigen Angst/Absicherungsbedarf - an Extremen oft ein
+    antizyklisches Boden-Signal. Niedrige Werte (viele Calls) deuten auf Sorglosigkeit.
+    Mechanisch steigt die Ratio in fallenden Maerkten durch Hedging-Nachfrage.
+  example: |
+    Diese Kennzahl vergleicht, wie viele Put-Optionen (Absicherung gegen fallende Kurse)
+    gegenueber Call-Optionen (Wetten auf steigende Kurse) gehandelt werden.
+
+    **Wie man sie liest:** Ein hoher Wert heisst viel Absicherung, also Angst - an Extremen
+    oft ein antizyklisches Boden-Signal. Ein niedriger Wert heisst Sorglosigkeit. In
+    fallenden Maerkten steigt die Kennzahl automatisch, weil mehr abgesichert wird.
+
+    **Beispiel:** In Panikphasen (z. B. Corona-Crash Maerz 2020) sprang sie ueber 1,2.
+    Dauerhaft niedrige Werte (unter 0,7) gelten als Zeichen von Spaetzyklus-Sorglosigkeit.
+
+- id: cftc_sp500_spec
+  name: "CFTC Spec Net Positioning S&P 500 E-mini"
+  category: sentiment
+  source: cftc
+  symbol: 13874A
+  unit: Kontrakte
+  decimals: 0
+  direction: neutral
+  cache_ttl_minutes: 1440
+  what: |
+    Netto-Positionierung spekulativer Trader (Non-Commercials) in CME-E-mini-S&P-500-
+    Futures: Long minus Short. Aus dem woechentlichen CFTC-COT-Report.
+  why: |
+    Spekulanten sind oft trendfolgend; extreme Netto-Long-Positionen zeigen ueberkauften
+    Konsens (wenig Nachkaufkraft, Rueckschlagrisiko), extreme Netto-Shorts moegliche
+    Short-Squeeze-Setups. Ein Positionierungs- und Stimmungs-Kontraindikator.
+  example: |
+    Diese woechentliche Zahl zeigt, ob spekulative Trader unterm Strich auf steigende (netto
+    long) oder fallende (netto short) US-Aktien wetten - gemessen an Futures-Kontrakten auf
+    den S&P 500.
+
+    **Wie man sie liest:** Spekulanten laufen oft dem Trend hinterher. Sehr hohe Long-Wetten
+    zeigen, dass schon fast alle positiv positioniert sind (wenig Nachschub, Rueckschlag-
+    risiko). Sehr hohe Short-Wetten koennen umgekehrt zu einer schnellen Gegenbewegung
+    fuehren.
+
+    **Beispiel:** Rekord-Short-Positionen gingen mehrfach kraeftigen Erholungen voraus (weil
+    die Wetten zurueckgekauft werden mussten). Extreme Long-Positionen markierten dagegen
+    anfaellige Marktphasen.
+
+# ----------------------------------------------------------------------------
+# 10) VALUATION  (Spezialquellen: Shiller CAPE + abgeleitetes ERP)
+# ----------------------------------------------------------------------------
+- id: shiller_cape
+  name: "Shiller CAPE Ratio (S&P 500)"
+  priority: 2
+  category: valuation
+  source: shiller
+  symbol: cape
+  unit: Ratio
+  decimals: 1
+  direction: higher_is_stress
+  cache_ttl_minutes: 1440
+  thresholds:
+    elevated: 30
+    stress: 38
+  what: |
+    Zyklisch bereinigtes Kurs-Gewinn-Verhaeltnis des S&P 500: Preis geteilt durch die
+    inflationsbereinigten Durchschnittsgewinne der letzten 10 Jahre (Robert Shiller).
+  why: |
+    Glaettet Konjunkturzyklen und ist daher ein robusteres Bewertungsmass als das
+    einfache KGV. Hohe CAPE-Werte korrelieren historisch mit niedrigeren realen
+    10-Jahres-Renditen - ein Mass fuer langfristiges Rueckschlagrisiko, kein Timing-Tool.
+  example: |
+    Das CAPE ist ein Kurs-Gewinn-Verhaeltnis fuer den S&P 500, das die Gewinne ueber 10 Jahre
+    glaettet und um Inflation bereinigt. So verzerren einzelne gute oder schlechte Jahre die
+    Bewertung nicht.
+
+    **Wie man es liest:** Hohe Werte bedeuten teure Aktien - historisch folgten darauf magere
+    langfristige Renditen. Es ist ein Risikomass fuer Jahre, kein Timing-Signal.
+
+    **Beispiele:** Der langfristige Schnitt liegt bei rund 17. Auf dem Dotcom-Hoch 2000 stand
+    das CAPE bei ~44 (Rekord), 2021 bei ueber 38. Im Tief der Finanzkrise 2009 fiel es auf
+    ~13.
+
+- id: equity_risk_premium
+  name: "US Equity Risk Premium"
+  category: valuation
+  source: computed
+  # Earnings Yield (1/CAPE) minus risikofreier 10Y-Zins (vereinfachtes ERP).
+  formula: "invert(shiller:cape) * 100 - fred:DGS10"
+  unit: "%"
+  decimals: 2
+  direction: higher_is_supportive
+  cache_ttl_minutes: 1440
+  what: |
+    Vereinfachte Aktienrisikopraemie: zyklisch bereinigte Gewinnrendite des S&P 500
+    (1 / CAPE) abzueglich der 10-jaehrigen US-Staatsanleiherendite.
+  why: |
+    Misst die Mehrrendite, die Aktien gegenueber sicheren Anleihen bieten. Eine niedrige
+    oder negative Praemie bedeutet, dass Anleger fuer Aktienrisiko kaum kompensiert
+    werden (Aktien teuer relativ zu Anleihen) - relevant in Hochzinsphasen.
+  example: |
+    Diese Kennzahl vergleicht, was Aktien einbringen, mit dem sicheren Zins von
+    Staatsanleihen. Vereinfacht: Gewinnrendite des S&P 500 (aus dem CAPE) minus die
+    10-jaehrige US-Anleiherendite.
+
+    **Wie man sie liest:** Eine hohe Praemie heisst, Aktien werden fuer ihr Risiko gut bezahlt
+    (attraktiv gegenueber Anleihen). Eine niedrige oder negative Praemie heisst, man bekommt
+    fuer das Aktienrisiko kaum Mehrertrag - Aktien sind dann teuer im Vergleich zu Anleihen.
+
+    **Beispiel:** 2022/23 fiel die Praemie stark, weil steigende Anleihezinsen Aktien relativ
+    unattraktiver machten. In der Niedrigzins-Zeit davor war sie hoch und stuetzte die
+    Aktienkurse.

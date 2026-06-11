@@ -1,0 +1,15 @@
+{
+  "fear_and_greed": {"score": 28.7, "rating": "fear"},
+  "fear_and_greed_historical": {
+    "data": [
+      {"x": 1749513600000, "y": 64.0, "rating": "greed"},
+      {"x": 1749600000000, "y": 28.7, "rating": "fear"}
+    ]
+  },
+  "put_call_options": {
+    "data": [
+      {"x": 1749513600000, "y": 0.90},
+      {"x": 1749600000000, "y": 0.78}
+    ]
+  }
+}

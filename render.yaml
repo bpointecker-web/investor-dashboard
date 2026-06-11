@@ -1,0 +1,15 @@
+# Render Blueprint - https://render.com/docs/blueprint-spec
+# Deployt das Dashboard als Docker-Web-Service. Render injiziert $PORT automatisch.
+services:
+  - type: web
+    name: investor-dashboard
+    runtime: docker
+    plan: free
+    autoDeploy: true
+    healthCheckPath: /healthz
+    envVars:
+      # FRED-Key NICHT hier eintragen, sondern im Render-Dashboard (bleibt geheim).
+      - key: FRED_API_KEY
+        sync: false
+      - key: LOG_JSON
+        value: "true"

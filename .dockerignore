@@ -1,0 +1,22 @@
+# Secrets - NIEMALS ins Image
+.env
+
+# Virtuelle Umgebung / Caches
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+coverage.xml
+htmlcov/
+
+# Git & Tooling
+.git/
+.gitignore
+.pre-commit-config.yaml
+.claude/
+
+# Nicht fuer die Laufzeit noetig
+tests/

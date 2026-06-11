@@ -1,0 +1,13 @@
+<div id="grid">
+  {% for category, snaps in sections %}
+  <section class="category">
+    <h2>{{ category_label(category) }}</h2>
+    <div class="cards">
+      {% for snap in snaps %}
+        {% include "_card.html" %}
+      {% endfor %}
+    </div>
+  </section>
+  {% endfor %}
+  <p class="grid-footer">Aktualisiert: {{ last_refresh }}</p>
+</div>

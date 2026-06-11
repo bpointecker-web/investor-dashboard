@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Investor Dashboard{% endblock %}</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <script src="https://cdn.plot.ly/plotly-2.35.2.min.js" charset="utf-8"></script>
+  <script src="/static/htmx.min.js" defer></script>
+</head>
+<body>
+  <main class="container">
+    {% block content %}{% endblock %}
+  </main>
+
+  <script>
+    // Rendert alle eingebetteten Plotly-Figuren (JSON in <script class="figdata">).
+    function renderPlots(root) {
+      (root || document).querySelectorAll('script.figdata').forEach(function (node) {
+        if (node.dataset.rendered === '1') return;
+        var target = document.getElementById(node.dataset.target);
+        if (!target || typeof Plotly === 'undefined') return;
+        try {
+          var fig = JSON.parse(node.textContent);
+          Plotly.newPlot(target, fig.data, fig.layout, {
+            displayModeBar: false,
+            responsive: true,
+            staticPlot: node.dataset.static === '1'
+          });
+          node.dataset.rendered = '1';
+        } catch (err) {
+          console.error('Plot-Fehler', node.dataset.target, err);
+        }
+      });
+    }
+    document.addEventListener('DOMContentLoaded', function () { renderPlots(); });
+    document.body.addEventListener('htmx:afterSwap', function (evt) { renderPlots(evt.target); });
+    {% block scripts %}{% endblock %}
+  </script>
+</body>
+</html>

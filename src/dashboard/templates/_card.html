@@ -1,0 +1,45 @@
+{% set ind = snap.indicator %}
+{% set ok = (snap.status.value == 'ok' and snap.stats) %}
+{% set band = snap.stats.band.value if ok else 'error' %}
+<article class="card band-{{ band }}{{ ' is-error' if not ok else '' }}{{ ' is-priority' if ind.priority > 0 else '' }}"
+         data-band="{{ band }}" data-priority="{{ ind.priority }}">
+  <a class="card-link" href="/indicator/{{ ind.id }}">
+    <div class="card-head">
+      <span class="card-name" title="{{ category_label(ind.category.value) }}">
+        {% if ind.priority > 0 %}<span class="star" title="Wichtige Kennzahl">★</span> {% endif %}{{ ind.name }}
+      </span>
+      {% if ok %}<span class="dot">{{ band_dot(snap.stats.band) }}</span>{% endif %}
+    </div>
+
+    {% if ok %}
+      <div class="value">
+        {{ format_number(snap.stats.current, ind.decimals) }}<span class="unit">{{ ind.unit }}</span>
+      </div>
+      <div class="band-label">{{ band_label(snap.stats.band, ind.direction) }}</div>
+
+      {% if ind.id in sparklines %}
+        <div class="spark" id="spark-{{ ind.id }}"></div>
+        <script type="application/json" class="figdata" data-target="spark-{{ ind.id }}" data-static="1">{{ sparklines[ind.id]|safe }}</script>
+      {% endif %}
+
+      <table class="changes">
+        <tr>
+          {% for key, label in [('1d','1T'), ('1w','1W'), ('1m','1M'), ('1y','1J')] %}
+          {% set ch = snap.stats.changes[key] %}
+          <td>
+            <span class="ch-label">{{ label }}</span>
+            <span class="ch-val {{ change_class(ch.percent) }}">{{ format_percent(ch.percent) }}</span>
+          </td>
+          {% endfor %}
+        </tr>
+      </table>
+
+      <div class="pctl">P{{ snap.stats.percentile_10y | round | int }} / 10Y</div>
+    {% else %}
+      <div class="error-msg">
+        ⚠ Quelle nicht verfügbar
+        <small>{{ snap.error }}</small>
+      </div>
+    {% endif %}
+  </a>
+</article>

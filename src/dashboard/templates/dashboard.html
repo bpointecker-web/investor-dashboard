@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block title %}Investor Dashboard{% endblock %}
+
+{% block content %}
+<header class="topbar">
+  <div class="topbar-row">
+    <h1>📊 Investor Dashboard</h1>
+    <div class="topbar-actions">
+      <span class="last-refresh">Stand: {{ last_refresh }}</span>
+      <button class="refresh-btn"
+              hx-get="/partials/cards"
+              hx-target="#grid"
+              hx-swap="outerHTML"
+              hx-indicator="#load-ind">↻ Aktualisieren</button>
+      <span id="load-ind" class="htmx-indicator">lädt…</span>
+    </div>
+  </div>
+  <div class="filterbar" role="group" aria-label="Filter nach Ampel">
+    <button class="filter active" data-filter="all" title="Alle Indikatoren anzeigen">Alle</button>
+    <button class="filter" data-filter="priority" title="Nur als wichtig markierte Kennzahlen">⭐ Wichtigste</button>
+    <button class="filter" data-filter="stress" title="Aktueller Wert im extremen Bereich (historisch angespannt)">🔴 Stress</button>
+    <button class="filter" data-filter="elevated" title="Aktueller Wert fällt auf – über dem üblichen Bereich">🟠 Erhöht</button>
+    <button class="filter" data-filter="normal" title="Aktueller Wert im üblichen Bereich">🔵 Normal</button>
+    <button class="filter" data-filter="low" title="Aktueller Wert am ruhigen, unauffälligen Ende">🟢 Niedrig</button>
+  </div>
+
+  <details class="legend">
+    <summary>Was bedeuten die Ampel-Farben?</summary>
+    <p>
+      Die Ampel zeigt, <strong>wie außergewöhnlich der aktuelle Wert ist</strong> – gemessen
+      an seinem 10-Jahres-Verlauf (Percentil) oder an festen Schwellen (z.&nbsp;B. VIX, Spreads):
+    </p>
+    <ul>
+      <li><span class="lg lg-low">🟢 Niedrig</span> — ruhiges, unauffälliges Ende</li>
+      <li><span class="lg lg-normal">🔵 Normal</span> — üblicher Bereich (mittleres Drittel)</li>
+      <li><span class="lg lg-elevated">🟠 Erhöht</span> — fällt auf, beginnt aus dem Rahmen zu fallen</li>
+      <li><span class="lg lg-stress">🔴 Stress</span> — extremer Bereich, historisch angespannt</li>
+    </ul>
+    <p class="legend-note">
+      Die Richtung ist je Indikator sinnvoll gewählt: Bei Liquiditäts-Kennzahlen heißen die
+      Stufen <em>Expansiv … Restriktiv</em> (gleiche Farben). 🔴 markiert immer das
+      „auffällige/angespannte“ Ende – nicht zwingend „schlecht“.
+    </p>
+  </details>
+</header>
+
+{% include "_grid.html" %}
+{% endblock %}
+
+{% block scripts %}
+  // Clientseitige Band-Filterung (rein per CSS-Klassen).
+  document.addEventListener('click', function (evt) {
+    var btn = evt.target.closest('.filter');
+    if (!btn) return;
+    document.querySelectorAll('.filter').forEach(function (b) { b.classList.remove('active'); });
+    btn.classList.add('active');
+    var f = btn.dataset.filter;
+    document.querySelectorAll('.card').forEach(function (card) {
+      var show;
+      if (f === 'all') {
+        show = true;
+      } else if (f === 'priority') {
+        show = Number(card.dataset.priority) > 0;
+      } else {
+        show = card.dataset.band === f;
+      }
+      card.classList.toggle('hidden', !show);
+    });
+    // Leere Kategorie-Sektionen ausblenden, wenn gefiltert wird.
+    document.querySelectorAll('.category').forEach(function (sec) {
+      var visible = sec.querySelectorAll('.card:not(.hidden)').length;
+      sec.classList.toggle('hidden', visible === 0);
+    });
+  });
+{% endblock %}

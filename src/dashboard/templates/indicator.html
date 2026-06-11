@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% set ind = snapshot.indicator %}
+{% set ok = (snapshot.status.value == 'ok' and snapshot.stats) %}
+{% block title %}{{ ind.name }} — Investor Dashboard{% endblock %}
+
+{% block content %}
+<a href="/" class="back">← Zurück zum Dashboard</a>
+
+<header class="detail-head">
+  <div class="detail-cat">{{ category_label(ind.category.value) }}</div>
+  <h1>{{ ind.name }}</h1>
+</header>
+
+{% if ok %}
+<section class="hero band-{{ snapshot.stats.band.value }}">
+  <div class="hero-value">
+    {{ format_number(snapshot.stats.current, ind.decimals) }} <span class="unit">{{ ind.unit }}</span>
+  </div>
+  <div class="hero-band">{{ band_dot(snapshot.stats.band) }} {{ band_label(snapshot.stats.band, ind.direction) }}</div>
+  <div class="hero-asof">Stand: {{ snapshot.stats.as_of }}</div>
+</section>
+
+<section class="explain">
+  <div class="explain-block">
+    <h3>Was misst er?</h3>
+    {{ format_richtext(ind.what) }}
+  </div>
+  <div class="explain-block">
+    <h3>Warum bewegt er sich?</h3>
+    {{ format_richtext(ind.why) }}
+  </div>
+  <div class="explain-block explain-example">
+    <h3>Historische Einordnung</h3>
+    {{ format_richtext(ind.example) }}
+  </div>
+</section>
+
+<section class="panel">
+  <h3>Verlauf (10 Jahre)</h3>
+  <div id="detail-chart" class="big-chart"></div>
+  <script type="application/json" class="figdata" data-target="detail-chart">{{ detail_chart|safe }}</script>
+</section>
+
+<section class="panel">
+  <h3>Verteilung &amp; aktuelle Position</h3>
+  <div id="histogram" class="big-chart"></div>
+  <script type="application/json" class="figdata" data-target="histogram">{{ histogram|safe }}</script>
+</section>
+
+<section class="panel">
+  <h3>Kennzahlen</h3>
+  <table class="stats-table">
+    <tbody>
+      <tr><th>Aktuell</th><td>{{ format_number(snapshot.stats.current, ind.decimals) }} {{ ind.unit }}</td></tr>
+      <tr><th>Median (10J)</th><td>{{ format_number(snapshot.stats.median_10y, ind.decimals) }} {{ ind.unit }}</td></tr>
+      <tr><th>Minimum (10J)</th><td>{{ format_number(snapshot.stats.min_10y, ind.decimals) }} {{ ind.unit }}</td></tr>
+      <tr><th>Maximum (10J)</th><td>{{ format_number(snapshot.stats.max_10y, ind.decimals) }} {{ ind.unit }}</td></tr>
+      <tr><th>Percentil (10J)</th><td>P{{ snapshot.stats.percentile_10y | round | int }}</td></tr>
+      <tr><th>Z-Score (5J)</th><td>{{ format_number(snapshot.stats.z_score_5y, 2) }}</td></tr>
+      <tr><th>Δ 1 Tag</th><td class="{{ change_class(snapshot.stats.changes['1d'].percent) }}">{{ format_percent(snapshot.stats.changes['1d'].percent) }}</td></tr>
+      <tr><th>Δ 1 Woche</th><td class="{{ change_class(snapshot.stats.changes['1w'].percent) }}">{{ format_percent(snapshot.stats.changes['1w'].percent) }}</td></tr>
+      <tr><th>Δ 1 Monat</th><td class="{{ change_class(snapshot.stats.changes['1m'].percent) }}">{{ format_percent(snapshot.stats.changes['1m'].percent) }}</td></tr>
+      <tr><th>Δ 1 Jahr</th><td class="{{ change_class(snapshot.stats.changes['1y'].percent) }}">{{ format_percent(snapshot.stats.changes['1y'].percent) }}</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="panel source-panel">
+  <h3>Quelle</h3>
+  <p>
+    <strong>{{ ind.source.value }}</strong> ·
+    {% if ind.source.value == 'computed' %}
+      Berechnet aus: <code>{{ ind.formula }}</code>
+    {% else %}
+      Referenz: <code>{{ ind.source_ref }}</code>
+    {% endif %}
+  </p>
+  {% set url = source_url(ind) %}
+  {% if url %}<p><a href="{{ url }}" target="_blank" rel="noopener">→ Zur Originalquelle</a></p>{% endif %}
+</section>
+
+{% else %}
+<section class="panel error-panel">
+  <h3>⚠ Daten nicht verfügbar</h3>
+  <p>{{ snapshot.error }}</p>
+</section>
+{% endif %}
+{% endblock %}
