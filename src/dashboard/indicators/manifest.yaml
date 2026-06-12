@@ -145,7 +145,7 @@
     Gewinne staerker abgezinst werden. Besonders Tech- und Wachstumsaktien leiden darunter.
 
 - id: us_10y_2y
-  name: "US 10Y-2Y Spread"
+  name: "US 10Y-2Y Anleihen Spread (inverse Zinskurve)"
   priority: 3
   category: rates
   source: fred
