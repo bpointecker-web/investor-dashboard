@@ -161,10 +161,43 @@
     Differenz zwischen 10- und 2-jaehriger US-Rendite. Der bekannteste Indikator
     fuer die Steilheit der Zinskurve.
   why: |
-    Eine Inversion (Wert < 0) gilt als zuverlaessigstes Rezessionssignal der
-    Nachkriegszeit: Der Markt erwartet kuenftige Zinssenkungen wegen
-    Konjunkturabschwung. Mechanisch belastet eine flache/inverse Kurve zudem die
-    Fristentransformation der Banken (Kreditvergabe sinkt).
+    **Warum kann die 2-jaehrige ueberhaupt mehr Rendite bringen als die 10-jaehrige?**
+    Fuer 2 Jahre verlangen Anleger etwa den Zins, den die Notenbank gerade festgelegt
+    hat (z.B. 5%, weil sie Inflation bekaempft). Fuer 10 Jahre verlangen sie dagegen
+    ungefaehr den DURCHSCHNITTLICHEN Zins, den sie ueber die ganze Laufzeit erwarten.
+    Glauben sie, dass die Notenbank die 5% nicht durchhalten kann, sondern z.B. in
+    1-2 Jahren wegen einer Rezession auf 2% senken und dort einige Jahre bleiben muss,
+    ergibt das einen 10-Jahres-Durchschnitt von vielleicht 3% - also WENIGER als die
+    heutigen 5% fuer 2 Jahre. Die Kurve "invertiert". Drei Blickwinkel, warum das eine
+    Krise ankuendigt:
+
+    **1. Das Banken-Problem (der Geldfluss stoppt).** Stell dir vor, du bist eine
+    Bank. Dein Geschaeft ist simpel: Du leihst dir Geld von Sparern (kurzfristig) und
+    zahlst ihnen wenig Zinsen. Du verleihst dieses Geld als Kredit an Haeuslebauer
+    und Firmen (langfristig) und verlangst mehr Zinsen. Die Differenz ist dein
+    Gewinn. In der Inversion sind die kurzfristigen Zinsen ploetzlich hoeher als die
+    langfristigen - die Bank muesste also mehr an Sparer zahlen, als sie mit neuen
+    Krediten verdient. Folge: Die Bank vergibt deutlich weniger Kredite. Wenn kein
+    Geld mehr fliesst, koennen Firmen keine Maschinen kaufen und Menschen keine
+    Haeuser bauen - die Wirtschaft bremst ab.
+
+    **2. Die "Angst-Wette" der Profis.** Wenn grosse institutionelle Anleger
+    (Versicherungen, Pensionsfonds) sehen, dass sie fuer 2 Jahre 5% bekommen, ihr
+    Geld aber trotzdem lieber fuer 10 Jahre zu nur 3% weggeben, hat das einen Grund:
+    Sie rechnen damit, dass es in 1-2 Jahren kaum noch Zinsen geben wird, weil die
+    Wirtschaft dann am Boden liegt. Lieber jetzt 3% fuer 10 Jahre sichern, bevor man
+    spaeter noch weniger bekommt.
+
+    **3. Der "Bremsklotz"-Effekt.** Die hohen kurzfristigen Zinsen sind wie eine
+    Vollbremsung: Die Notenbank tritt sie, um die Inflation zu stoppen. Eine
+    Inversion zeigt, dass diese Bremse so fest getreten wurde, dass der Motor der
+    Wirtschaft wahrscheinlich abzusaufen droht.
+
+    **Zusammengefasst:** Eine inverse Kurve bedeutet, dass Geldleihen unlogisch und
+    teuer wird. Und wenn Geldleihen nicht mehr funktioniert, bricht moderner
+    Wohlstand meistens kurz darauf ein. Seit den 1950ern ging praktisch jeder
+    US-Rezession eine Inversion voraus - allerdings mit 6-24 Monaten Vorlauf, also
+    kein Timing-Tool fuer den exakten Zeitpunkt.
   example: |
     Diese Kennzahl vergleicht den langen mit dem kurzen Zins. Normalerweise ist der lange
     hoeher (positiver Wert). Wird der Wert negativ ("inverse Kurve"), erwartet der Markt
