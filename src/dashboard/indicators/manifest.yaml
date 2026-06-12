@@ -161,6 +161,13 @@
     Differenz zwischen 10- und 2-jaehriger US-Rendite. Der bekannteste Indikator
     fuer die Steilheit der Zinskurve.
   why: |
+    Im Tagesgeschaeft bewegt sich der Spread vor allem durch zwei Dinge: Fed-Zins-
+    entscheidungen und -Aussagen (wirken staerker auf die 2-jaehrige, weil die naeher
+    am Leitzins liegt) sowie neue Konjunktur- und Inflationsdaten (Jobreport, CPI),
+    die die Erwartungen ueber die naechsten Zinsschritte neu justieren. Je staerker
+    sich diese kurzfristigen Erwartungen von den langfristigen unterscheiden, desto
+    weiter bewegt sich die Kurve - bis hin zur Inversion.
+
     **Warum kann die 2-jaehrige ueberhaupt mehr Rendite bringen als die 10-jaehrige?**
     Fuer 2 Jahre verlangen Anleger etwa den Zins, den die Notenbank gerade festgelegt
     hat (z.B. 5%, weil sie Inflation bekaempft). Fuer 10 Jahre verlangen sie dagegen
