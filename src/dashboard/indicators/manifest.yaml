@@ -168,8 +168,11 @@
     Glauben sie, dass die Notenbank die 5% nicht durchhalten kann, sondern z.B. in
     1-2 Jahren wegen einer Rezession auf 2% senken und dort einige Jahre bleiben muss,
     ergibt das einen 10-Jahres-Durchschnitt von vielleicht 3% - also WENIGER als die
-    heutigen 5% fuer 2 Jahre. Die Kurve "invertiert". Drei Blickwinkel, warum das eine
-    Krise ankuendigt:
+    heutigen 5% fuer 2 Jahre. Weil viele Anleger das so sehen, kaufen sie jetzt
+    massiv 10-jaehrige Anleihen, um sich die 3% noch zu sichern, bevor die Zinsen
+    weiter fallen - diese hohe Nachfrage treibt den Kurs der Anleihe nach oben und
+    damit ihre Rendite zusaetzlich nach unten. Die Kurve "invertiert". Drei
+    Blickwinkel, warum das eine Krise ankuendigt:
 
     **1. Das Banken-Problem (der Geldfluss stoppt).** Stell dir vor, du bist eine
     Bank. Dein Geschaeft ist simpel: Du leihst dir Geld von Sparern (kurzfristig) und
@@ -200,15 +203,37 @@
     kein Timing-Tool fuer den exakten Zeitpunkt.
   example: |
     Diese Kennzahl vergleicht den langen mit dem kurzen Zins. Normalerweise ist der lange
-    hoeher (positiver Wert). Wird der Wert negativ ("inverse Kurve"), erwartet der Markt
-    bald sinkende Zinsen - meist wegen einer drohenden Rezession.
+    hoeher (positiver Wert) - Anleger wollen fuer laengere Bindung mehr Zins. Wird der Wert
+    negativ ("inverse Kurve"), erwartet der Markt bald sinkende Zinsen - meist wegen einer
+    drohenden Rezession.
 
-    **So liest du die Werte:** Positiv = normal. Um 0 = Warnstufe. Negativ = klassisches
-    Rezessionssignal.
+    **So liest du die Werte:**
+    - **Positiv (> 25 bp):** Normalzustand, keine Warnung.
+    - **Um 0 bp:** Warnstufe - die Kurve flacht ab, Vorsicht ist angebracht.
+    - **Negativ:** Inversion - klassisches Rezessionssignal, aber kein Timing-Tool
+      (die Rezession folgt meist erst 6-24 Monate spaeter).
 
-    **Beispiele:** Seit Mitte 2022 war die Kurve laenger invers als je zuvor in Jahrzehnten
-    (bis ~-100 bp). Vor den Rezessionen 2001 und 2008 kam die Inversion jeweils 12-18 Monate
-    im Voraus - sie warnt also frueh, aber nicht auf den Tag genau.
+    **Historische Beispiele:**
+
+    - **1989, 2000, 2006/07:** Vor allen drei grossen US-Rezessionen (1990/91,
+      2001, 2007-09) war die Kurve Monate vorher invertiert. 2006 lag der Spread
+      ueber ein Jahr leicht im Minus, bevor 2008 die Finanzkrise eskalierte.
+
+    - **2019:** Die Kurve invertierte kurz (Maerz und August 2019) - kurz darauf
+      kam tatsaechlich eine Rezession, allerdings ausgeloest durch Corona (2020).
+      Ob die Inversion diese "vorhergesehen" hat oder Zufall war, ist umstritten -
+      zeigt aber, dass das Signal nicht immer eindeutig interpretierbar ist.
+
+    - **Juli 2022 - Sommer 2024:** Laengste und tiefste Inversion seit den 1980ern
+      (bis ca. -100 bis -180 bp), weil die US-Notenbank die Zinsen rasant gegen die
+      hohe Inflation anhob. Viele erwarteten deshalb eine Rezession fuer 2023 -
+      die aber (zumindest bis Redaktionsschluss) ausblieb ("Soft Landing"). Die
+      Kurve normalisierte sich erst, als die Fed ab Mitte 2024 wieder begann, die
+      Zinsen zu senken.
+
+    **Lehre daraus:** Eine Inversion ist ein ernstzunehmendes Warnsignal mit guter
+    Trefferquote ueber Jahrzehnte - aber kein Garant. Sie sagt "die Bedingungen fuer
+    eine Krise sind da", nicht "die Krise kommt naechsten Monat".
 
 - id: us_10y_3m
   name: "US 10Y-3M Spread"
