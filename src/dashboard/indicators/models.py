@@ -101,6 +101,7 @@ class Indicator(BaseModel):
     what: str = ""
     why: str = ""
     example: str = ""
+    rules: str = ""  # optionale Faustregeln fuer Investoren
 
     @model_validator(mode="after")
     def _check_source_ref(self) -> Indicator:

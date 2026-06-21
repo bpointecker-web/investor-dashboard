@@ -52,6 +52,31 @@
     300 bp), verlangen Anleger fast keine Praemie mehr fuers Risiko - ein Zeichen von
     Sorglosigkeit. Das klingt beruhigend, war in der Vergangenheit aber oft ein Warnzeichen
     kurz vor dem Abschwung, etwa Anfang 2007 vor der Finanzkrise.
+  rules: |
+    Historische Muster, an denen sich antizyklische Investoren orientieren (keine
+    Anlageberatung, nur Faustregeln aus der Vergangenheit):
+
+    **Spread unter 300 bp - eher meiden.** Du bekommst kaum mehr Zins als bei sicheren
+    Staatsanleihen, traegst aber das volle Pleiterisiko der Unternehmen. Es fehlt der
+    Puffer: Kippt die Konjunktur, fallen die Kurse sofort - das Chance-Risiko-Verhaeltnis
+    ist dann schlecht. Niedrige Spreads bedeuten "alle sind sorglos", nicht "alles ist
+    sicher".
+
+    **Spread ueber 800 bp - historisch interessant.** In Krisen verkaufen Anleger
+    panisch alles, die Kurse fallen oft unter den fairen Wert. Der hohe Zinskupon puffert
+    selbst reale Pleitewellen ab. Historisch folgte auf solche Niveaus fast immer eine
+    zweistellige Jahresrendite - aber niemand kann den exakten Tiefpunkt timen, und der
+    Spread kann erst noch weiter steigen (2008: bis ~1900 bp).
+
+    **BB statt CCC bevorzugen.** BB-Firmen sind oft solide Unternehmen, die das
+    Investment-Grade-Rating nur knapp verfehlen. CCC-Firmen stehen dagegen oft kurz vor
+    der Pleite - schon ein kleiner Gegenwind kann zum Totalverlust der Anleihe fuehren.
+
+    **Lieber ETF als Einzelanleihe.** Anleihen sind asymmetrisch: Maximal bekommst du
+    dein Geld plus Zinsen zurueck, verlieren kannst du aber alles (100 %). Geht in einem
+    ETF mit hunderten Anleihen eine Firma pleite, kostet das nur Bruchteile eines Prozents;
+    haeltst du genau diese eine Anleihe, ist das Kapital weg. Breite Streuung wandelt das
+    Totalverlust-Risiko in ein kalkulierbares Durchschnittsrisiko um.
 
 - id: us_ig_spread
   name: "US Investment Grade Spread (OAS)"

@@ -33,6 +33,12 @@
     <h3>Historische Einordnung</h3>
     {{ format_richtext(ind.example) }}
   </div>
+  {% if ind.rules %}
+  <div class="explain-block explain-rules">
+    <h3>Faustregeln für Investoren</h3>
+    {{ format_richtext(ind.rules) }}
+  </div>
+  {% endif %}
 </section>
 
 <section class="panel">

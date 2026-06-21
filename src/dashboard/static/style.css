@@ -182,6 +182,8 @@ body {
 .explain-block p:last-child { margin-bottom: 0; }
 .explain-block strong { color: var(--text); }
 .explain-example { border-left: 3px solid var(--accent); }
+.explain-rules { border-left: 3px solid var(--band-low); grid-column: 1 / -1; }
+.explain-rules h3 { color: var(--band-low); }
 
 .panel { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1.2rem 1.5rem; margin-bottom: 1.5rem; }
 .panel h3 { margin: 0 0 1rem; font-size: 1rem; }

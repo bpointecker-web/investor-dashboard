@@ -50,6 +50,7 @@ def test_by_category_groups() -> None:
         "us_hy_spread",
         "us_ig_spread",
         "eu_hy_spread",
+        "btp_bund_spread",
     }
 
 
