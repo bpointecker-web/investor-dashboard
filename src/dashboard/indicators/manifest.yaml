@@ -114,6 +114,39 @@
     Aufschlag jeweils ueber 800 bp. Liegt er deutlich hoeher als der US-Wert, steckt das
     Problem eher in Europa (z. B. Banken oder Energiekrise) als in der Weltwirtschaft.
 
+- id: eu_ig_spread
+  name: "Euro Investment Grade Spread (OAS)"
+  category: credit
+  source: fred
+  series_id: BAMLHE4HBBEY
+  unit: bp
+  display_multiplier: 100
+  decimals: 0
+  direction: higher_is_stress
+  thresholds:
+    elevated: 150
+    stress: 250
+  what: |
+    Risikoaufschlag (Option-Adjusted Spread) von EUR-Investment-Grade-Anleihen gegenueber
+    risikofreien Staatsanleihen. Misst, wie viel Zins Investoren fuer Unternehmensanleihen
+    guter Bonität (BBB+ bis AAA) im Euroraum extra verlangen.
+  why: |
+    EU IG ist das Stimmungsbarometer fuer grosse, solide europaeische Unternehmen - die
+    meisten Konzerne und Banken finanzieren sich hier. Steigende Spreads bedeuten, dass
+    auch fuer qualitativ hochwertige Schuldner Kredit teurer wird - ein Fruehindikator
+    fuer wirtschaftlichen Gegenwind. Der Vergleich zu EU HY zeigt, ob der Stress
+    breit (alle Bonitsklassen) oder nur spekulativ (nur HY) ist.
+  example: |
+    EU IG-Spreads sind normalerweise eng, weil es sich um gut bewertete Unternehmen
+    handelt. Weiten sie sich aus, zieht sich Kapital auch aus soliden Firmen zurueck.
+
+    **So liest du die Werte:** Unter 100 bp = entspannt. 150-250 bp = erhoehte Vorsicht.
+    Ueber 250 bp = echter Stress, Kreditmarkt zieht sich zurueck.
+
+    **Beispiele:** Im Corona-Crash 2020 weitete sich der EU-IG-Spread kurz auf ueber 250 bp,
+    in der Finanzkrise 2008/09 sogar auf ueber 400 bp. In ruhigen Phasen (2017-2019,
+    2021) lag er unter 100 bp.
+
 # ----------------------------------------------------------------------------
 # 2) YIELD CURVE & RATES
 # ----------------------------------------------------------------------------
@@ -298,6 +331,98 @@
     **Wozu sie dient:** Der Abstand anderer Laender zu dieser Rendite (z. B. Italien) zeigt,
     wie riskant der Markt diese Laender einschaetzt - ein Stressmass fuer die Eurozone.
 
+- id: eur_swap_5y
+  name: "EUR 5Y Swap Rate"
+  category: rates
+  source: fred
+  series_id: DSWP5
+  unit: "%"
+  decimals: 2
+  direction: neutral
+  what: |
+    Marktbasierter Festzins fuer einen 5-jaehrigen Euro-Zinsswap. Eine Partei zahlt
+    diesen Fixzins, die andere den variablen EURIBOR - der Swap-Satz ist damit der
+    Markt-Konsens fuer den durchschnittlichen EURIBOR der naechsten 5 Jahre.
+  why: |
+    Banken leiten Fixzinskredite (Hypotheken, Unternehmenskredite) direkt aus diesem
+    Satz ab: Der Swap-Satz ist ihr Refinanzierungskosten-Anker, darauf addieren sie
+    eine Kreditmarge. Steigt der Swap-Satz, steigt der Fixzins fuer Hauskredite -
+    auch wenn die EZB die Leitzinsen noch nicht geaendert hat. Der Swap-Markt ist
+    damit der eigentliche Transmissionsriemen der Geldpolitik in die Realwirtschaft.
+    Daneben zeigt die Swap-Kurve (5Y vs. 10Y vs. 2Y), was der Markt von der EZB
+    in den naechsten Jahren erwartet.
+  example: |
+    Stell dir vor, eine Bank will dir einen 5-jaehrigen Fixzins-Kredit geben. Sie
+    weiss nicht, wie sich EURIBOR in den naechsten 5 Jahren entwickelt, und muss
+    dieses Risiko absichern. Das macht sie ueber einen Zinsswap: Sie zahlt den fixen
+    Swap-Satz (z.B. 2,8 %) und bekommt im Gegenzug den variablen EURIBOR. Dein
+    Fixzins ist also im Kern dieser Swap-Satz plus die Marge der Bank (z.B. 0,8 %)
+    = 3,6 %. Deshalb ist der Swap-Satz der Startpunkt fuer jeden Fixzinskredit.
+
+    **Historisch:** 2020/21 lag der 5Y-Swap-Satz unter 0 % (Notenbank-Nullzinspolitik).
+    Mit der Zinswende 2022 schoss er auf ueber 3 % - was Fixzins-Hypotheken schlagartig
+    verteuerte, noch bevor die EZB den Leitzins so weit angehoben hatte.
+
+- id: eur_swap_10y
+  name: "EUR 10Y Swap Rate"
+  category: rates
+  source: fred
+  series_id: DSWP10
+  unit: "%"
+  decimals: 2
+  direction: neutral
+  what: |
+    Marktbasierter Festzins fuer einen 10-jaehrigen Euro-Zinsswap - der wichtigste
+    Referenzpunkt fuer langfristige Finanzierungen in der Eurozone.
+  why: |
+    Fuer alles, was laenger als 5 Jahre laeuft (20-30-jaehrige Hypotheken, Anleihen,
+    Unternehmensfinanzierungen), ist der 10Y-Swap die entscheidende Ankergroesse. Der
+    Spread zwischen 5Y- und 10Y-Swap zeigt, ob der Markt langfristig mit einer
+    Normalisierung oder weiterer Straffung rechnet. Versicherungen und Pensionsfonds
+    nutzen den 10Y-Swap, um langfristige Verbindlichkeiten abzusichern - ihre Kaeufe
+    druecken oft die langfristigen Swap-Saetze.
+  example: |
+    Bei langen Krediten (z.B. 20 Jahre fix) orientiert sich die Bank am 10Y-Swap,
+    weil sie das Zinsrisiko in Scheiben von 10 Jahren absichert. Der 10Y-Swap lag
+    2020 bei rund 0 %, stieg 2022/23 auf ueber 3 % und war damit der Haupttreiber
+    dahinter, dass langfristige Fixzins-Hypotheken in Europa so dramatisch teurer
+    wurden.
+
+    **Spread 5Y vs. 10Y:** Liegt der 10Y hoeher als der 5Y (normale Steilheit),
+    erwartet der Markt langfristig hoehere Zinsen oder Inflation. Flacht der
+    Abstand ab, rechnet er mit Stagnation oder Zinssenkungen - das spiegelt denselben
+    Mechanismus wie die US-Zinskurve, nur fuer EUR.
+
+- id: euribor_3m
+  name: "EURIBOR 3M"
+  category: rates
+  source: fred
+  series_id: EURIBOR3MD156N
+  unit: "%"
+  decimals: 3
+  direction: neutral
+  what: |
+    3-Monats-EURIBOR (Euro Interbank Offered Rate) - der Zinssatz, zu dem sich
+    europaeische Banken gegenseitig kurzfristig Geld leihen. Basis fuer variable
+    Kredite und Hypotheken im Euroraum.
+  why: |
+    Der EURIBOR 3M ist das Gegenstueck zu den Swap-Saetzen auf der kurzen Seite:
+    Waehrend Swap-Saetze den erwarteten EURIBOR ueber mehrere Jahre widerspiegeln,
+    zeigt der 3M-EURIBOR das aktuelle kurzfristige Zinsniveau. Er ist die Basis fuer
+    Millionen variabler Hypotheken und Unternehmenskredite in Europa - steigt er,
+    steigt sofort die Monatsrate fuer alle variabel verzinsten Kredite. Deshalb ist
+    er oft der schmerzhafteste Indikator fuer Haushalte und KMUs.
+  example: |
+    Variable Hypotheken in Oesterreich, Spanien und anderen Euro-Laendern sind
+    typischerweise an EURIBOR 3M (oder 6M) plus einer Marge gekoppelt. Wenn der
+    EURIBOR 2022/23 von -0,5 % auf ueber 4 % stieg, verteuerte sich eine typische
+    variable Hypothek von 300.000 EUR um rund 1.000 EUR pro Monat - die sichtbarste
+    Auswirkung der EZB-Zinswende fuer Privatpersonen.
+
+    **Vergleich mit Swaps:** EURIBOR 3M (aktuell) vs. EUR 5Y Swap (erwartet) ergibt
+    die kurzfristige "Mini-Zinskurve" fuer den Euroraum - flacht sie ab oder
+    invertiert sie, erwartet der Markt baldige EZB-Zinssenkungen.
+
 - id: fed_funds
   name: "Effective Fed Funds Rate"
   category: rates
@@ -413,6 +538,41 @@
     **Beispiele:** Im Corona-Crash (Maerz 2020) schoss der VIX auf ~82, in der Finanzkrise
     2008 auf ~80. Umgekehrt ist auch ein dauerhaft sehr niedriger VIX (unter 13) ein
     Warnsignal - dann ist der Markt vielleicht zu sorglos.
+
+- id: move_index
+  name: "MOVE Index (Bond Volatility)"
+  category: volatility
+  source: fred
+  series_id: BAMLMOVE
+  unit: Index
+  decimals: 1
+  direction: higher_is_stress
+  thresholds:
+    elevated: 100
+    stress: 150
+  what: |
+    ICE BofA MOVE Index - der "VIX fuer Anleihen". Misst die implizite Volatilitaet
+    von 1-Monats-Optionen auf US-Staatsanleihen unterschiedlicher Laufzeiten (2Y, 5Y,
+    10Y, 30Y).
+  why: |
+    Hohe Aktien-Volatilitaet (VIX) und hohe Anleihen-Volatilitaet (MOVE) sagen
+    unterschiedliche Dinge: Ein hoher MOVE bei normalem VIX deutet auf Zins-Unsicherheit
+    hin (Notenbank-Unklarheit, Inflationsschock), waehrend ein hoher VIX bei normalem
+    MOVE eher Aktienmarkt-spezifischen Stress signalisiert. Laufen beide hoch, ist
+    systemischer Stress im Gange. Der MOVE war z.B. 2022/23 sehr hoch, weil die Maerkte
+    nicht wussten, wie weit die Fed gehen wuerde - VIX war aber vergleichsweise ruhig.
+  example: |
+    Stell dir vor, ein Erdbebenwarnsystem (VIX) zeigt nur Beben an einem Ort an.
+    Der MOVE ist ein zweites Warnsystem fuer einen anderen Ort - gemeinsam geben sie
+    ein vollstaendiges Bild.
+
+    **So liest du die Werte:** Unter 80 = ruhig. 80-100 = erhoehte Nervositaet.
+    Ueber 100 = Anleihenmarkt gestresst. Ueber 150 = extreme Unsicherheit
+    (passierte u.a. in der Finanzkrise 2008, bei der SVB-Krise 2023 und kurz nach
+    Covid-Schock 2020).
+
+    **Vergleich VIX vs. MOVE:** Steigt MOVE ohne VIX, steckt das Problem im
+    Zinssystem (z.B. Notenbankpolitik unklar). Steigen beide, ist die Panik breit.
 
 # ----------------------------------------------------------------------------
 # 5) FX
