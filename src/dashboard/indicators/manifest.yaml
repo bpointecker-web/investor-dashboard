@@ -114,38 +114,48 @@
     Aufschlag jeweils ueber 800 bp. Liegt er deutlich hoeher als der US-Wert, steckt das
     Problem eher in Europa (z. B. Banken oder Energiekrise) als in der Weltwirtschaft.
 
-- id: eu_ig_spread
-  name: "Euro Investment Grade Spread (OAS)"
+- id: btp_bund_spread
+  name: "BTP-Bund Spread (IT-DE 10Y)"
   category: credit
-  source: fred
-  series_id: BAMLHE4HBBEY
-  unit: bp
-  display_multiplier: 100
-  decimals: 0
+  source: computed
+  formula: "fred:IRLTLT01ITM156N - fred:IRLTLT01DEM156N"
+  unit: "%"
+  decimals: 2
   direction: higher_is_stress
+  cache_ttl_minutes: 1440
   thresholds:
-    elevated: 150
-    stress: 250
+    elevated: 2.0
+    stress: 3.5
   what: |
-    Risikoaufschlag (Option-Adjusted Spread) von EUR-Investment-Grade-Anleihen gegenueber
-    risikofreien Staatsanleihen. Misst, wie viel Zins Investoren fuer Unternehmensanleihen
-    guter Bonität (BBB+ bis AAA) im Euroraum extra verlangen.
+    Renditeunterschied zwischen 10-jaehrigen italienischen Staatsanleihen (BTP) und
+    deutschen Bundesanleihen. Der wichtigste Stressindikator fuer die Eurozone -
+    zeigt, wie viel Extra-Zins Anleger fuer das Risiko "Italien vs. Deutschland"
+    verlangen.
   why: |
-    EU IG ist das Stimmungsbarometer fuer grosse, solide europaeische Unternehmen - die
-    meisten Konzerne und Banken finanzieren sich hier. Steigende Spreads bedeuten, dass
-    auch fuer qualitativ hochwertige Schuldner Kredit teurer wird - ein Fruehindikator
-    fuer wirtschaftlichen Gegenwind. Der Vergleich zu EU HY zeigt, ob der Stress
-    breit (alle Bonitsklassen) oder nur spekulativ (nur HY) ist.
+    Da FRED keine EU-Unternehmensanleihen-Spreads veroeffentlicht (die liegen hinter
+    Bloomberg-Bezahlschranken), ist der BTP-Bund Spread der beste verfuegbare
+    kostenlose Proxy fuer europaeischen Kreditstress. Er misst, ob Anleger an die
+    Stabilitaet des Euro und der Eurozone glauben: Steigt der Spread, zweifeln sie
+    an Italiens Schuldentragfaehigkeit oder der Kohaeion des Euroraums - und das
+    strahlt auf alle europaeischen Kredite aus, weil Banken und Unternehmen immer
+    mehr zahlen muessen als der "sichere" Staat.
   example: |
-    EU IG-Spreads sind normalerweise eng, weil es sich um gut bewertete Unternehmen
-    handelt. Weiten sie sich aus, zieht sich Kapital auch aus soliden Firmen zurueck.
+    Stell dir den BTP-Bund Spread wie ein Fieberthermometer fuer Europa vor.
+    Normaltemperatur: 1,0-1,5 %. Leichtes Fieber: 2-3 %. Hohes Fieber: ueber 3,5 %.
 
-    **So liest du die Werte:** Unter 100 bp = entspannt. 150-250 bp = erhoehte Vorsicht.
-    Ueber 250 bp = echter Stress, Kreditmarkt zieht sich zurueck.
+    **Historische Beispiele:**
+    - **2011/12 (Euro-Schuldenkrise):** Der Spread schoss auf ueber 5 % (500 bp).
+      Maerkte zweifelten offen, ob Italien den Euro verlassen wuerde. EZB-Chef
+      Draghi stoppte die Krise mit dem Satz "Whatever it takes".
+    - **2018 (Populismus-Schock):** Neue italienische Regierung kuendigte Defizit-
+      Ausgaben an - Spread stieg auf ~3,3 % und loeste eine kurze Marktpanik aus.
+    - **2020 (Corona):** Kurz auf 2,7 % gestiegen, dann durch EZB-Kaufprogramm
+      (PEPP) schnell beruehigt.
+    - **2022 (Zinswende):** Wieder auf ~2,5 % gestiegen, weil hoehere Zinsen
+      Italiens Schuldenlast teurer machen.
 
-    **Beispiele:** Im Corona-Crash 2020 weitete sich der EU-IG-Spread kurz auf ueber 250 bp,
-    in der Finanzkrise 2008/09 sogar auf ueber 400 bp. In ruhigen Phasen (2017-2019,
-    2021) lag er unter 100 bp.
+    Ein Spread ueber 3,5 % ist historisch der Punkt, ab dem Maerkte anfangen,
+    ein echtes Problem zu preisen.
 
 # ----------------------------------------------------------------------------
 # 2) YIELD CURVE & RATES
