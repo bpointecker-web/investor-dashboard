@@ -407,10 +407,11 @@
   name: "EURIBOR 3M"
   category: rates
   source: fred
-  series_id: EURIBOR3MD156N
+  series_id: IR3TIB01EZM156N
   unit: "%"
   decimals: 3
   direction: neutral
+  cache_ttl_minutes: 1440
   what: |
     3-Monats-EURIBOR (Euro Interbank Offered Rate) - der Zinssatz, zu dem sich
     europaeische Banken gegenseitig kurzfristig Geld leihen. Basis fuer variable
@@ -552,8 +553,8 @@
 - id: move_index
   name: "MOVE Index (Bond Volatility)"
   category: volatility
-  source: fred
-  series_id: BAMLMOVE
+  source: stooq
+  symbol: ^move
   unit: Index
   decimals: 1
   direction: higher_is_stress

@@ -31,6 +31,7 @@ _SYMBOL_MAP: dict[str, str] = {
     "^dxy": "DX-Y.NYB",
     "eurusd": "EURUSD=X",
     "eurchf": "EURCHF=X",
+    "^move": "^MOVE",
 }
 
 
