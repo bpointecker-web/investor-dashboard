@@ -367,66 +367,65 @@
     wie riskant der Markt diese Laender einschaetzt - ein Stressmass fuer die Eurozone.
 
 - id: eur_swap_5y
-  name: "EUR 5Y Swap Rate"
+  name: "EUR 5Y Zinskurve (risikofrei)"
   category: rates
-  source: fred
-  series_id: DSWP5
+  source: ecb
+  symbol: "B.U2.EUR.4F.G_N_A.SV_C_YM.SR_5Y"
   unit: "%"
   decimals: 2
   direction: neutral
   what: |
-    Marktbasierter Festzins fuer einen 5-jaehrigen Euro-Zinsswap. Eine Partei zahlt
-    diesen Fixzins, die andere den variablen EURIBOR - der Swap-Satz ist damit der
-    Markt-Konsens fuer den durchschnittlichen EURIBOR der naechsten 5 Jahre.
+    5-Jahres-Spot-Rate der Euro-Raum-Zinskurve (EZB, AAA-Staatsanleihen). Der
+    risikofreie 5-Jahres-Euro-Zins - die Basis, auf die Banken bei einem
+    5-jaehrigen Fixzinskredit ihre Marge aufschlagen. (Liegt extrem nah am
+    5Y-Euro-Swapsatz; die EZB-Kurve ist die frei verfuegbare, taeglich gepflegte
+    Variante.)
   why: |
-    Banken leiten Fixzinskredite (Hypotheken, Unternehmenskredite) direkt aus diesem
-    Satz ab: Der Swap-Satz ist ihr Refinanzierungskosten-Anker, darauf addieren sie
-    eine Kreditmarge. Steigt der Swap-Satz, steigt der Fixzins fuer Hauskredite -
-    auch wenn die EZB die Leitzinsen noch nicht geaendert hat. Der Swap-Markt ist
-    damit der eigentliche Transmissionsriemen der Geldpolitik in die Realwirtschaft.
-    Daneben zeigt die Swap-Kurve (5Y vs. 10Y vs. 2Y), was der Markt von der EZB
-    in den naechsten Jahren erwartet.
+    Banken leiten Fixzinskredite (Hypotheken, Unternehmenskredite) direkt aus dieser
+    Kurve ab: Der risikofreie Zins ist ihr Refinanzierungs-Anker, darauf addieren sie
+    eine Kreditmarge. Steigt die 5Y-Rate, steigt der Fixzins fuer Hauskredite - auch
+    wenn die EZB den Leitzins noch nicht geaendert hat, weil dieser Zins die
+    *erwarteten* kuenftigen Leitzinsen einpreist. Damit ist die Zinskurve der
+    eigentliche Transmissionsriemen der Geldpolitik in die Realwirtschaft.
   example: |
     Stell dir vor, eine Bank will dir einen 5-jaehrigen Fixzins-Kredit geben. Sie
-    weiss nicht, wie sich EURIBOR in den naechsten 5 Jahren entwickelt, und muss
-    dieses Risiko absichern. Das macht sie ueber einen Zinsswap: Sie zahlt den fixen
-    Swap-Satz (z.B. 2,8 %) und bekommt im Gegenzug den variablen EURIBOR. Dein
-    Fixzins ist also im Kern dieser Swap-Satz plus die Marge der Bank (z.B. 0,8 %)
-    = 3,6 %. Deshalb ist der Swap-Satz der Startpunkt fuer jeden Fixzinskredit.
+    refinanziert sich am risikofreien 5-Jahres-Zins (z.B. 2,7 %) und schlaegt ihre
+    Marge drauf (z.B. 0,8 %). Dein Fixzins ist also im Kern diese Kurve plus
+    Bankmarge = rund 3,5 %. Deshalb ist die 5Y-Zinskurve der Startpunkt fuer jeden
+    Fixzinskredit - nicht der aktuelle Leitzins.
 
-    **Historisch:** 2020/21 lag der 5Y-Swap-Satz unter 0 % (Notenbank-Nullzinspolitik).
-    Mit der Zinswende 2022 schoss er auf ueber 3 % - was Fixzins-Hypotheken schlagartig
-    verteuerte, noch bevor die EZB den Leitzins so weit angehoben hatte.
+    **Historisch:** 2020/21 lag die 5Y-Rate unter 0 % (Nullzinspolitik, negative
+    Renditen). Mit der Zinswende 2022 schoss sie auf ueber 3 % - was Fixzins-Hypotheken
+    schlagartig verteuerte, noch bevor die EZB den Leitzins so weit angehoben hatte.
 
 - id: eur_swap_10y
-  name: "EUR 10Y Swap Rate"
+  name: "EUR 10Y Zinskurve (risikofrei)"
   category: rates
-  source: fred
-  series_id: DSWP10
+  source: ecb
+  symbol: "B.U2.EUR.4F.G_N_A.SV_C_YM.SR_10Y"
   unit: "%"
   decimals: 2
   direction: neutral
   what: |
-    Marktbasierter Festzins fuer einen 10-jaehrigen Euro-Zinsswap - der wichtigste
-    Referenzpunkt fuer langfristige Finanzierungen in der Eurozone.
+    10-Jahres-Spot-Rate der Euro-Raum-Zinskurve (EZB, AAA-Staatsanleihen) - der
+    wichtigste Referenzpunkt fuer langfristige Finanzierungen in der Eurozone und
+    Anker fuer lange Fixzinskredite. (Eng am 10Y-Euro-Swapsatz.)
   why: |
-    Fuer alles, was laenger als 5 Jahre laeuft (20-30-jaehrige Hypotheken, Anleihen,
-    Unternehmensfinanzierungen), ist der 10Y-Swap die entscheidende Ankergroesse. Der
-    Spread zwischen 5Y- und 10Y-Swap zeigt, ob der Markt langfristig mit einer
-    Normalisierung oder weiterer Straffung rechnet. Versicherungen und Pensionsfonds
-    nutzen den 10Y-Swap, um langfristige Verbindlichkeiten abzusichern - ihre Kaeufe
-    druecken oft die langfristigen Swap-Saetze.
+    Fuer alles, was laenger als 5 Jahre laeuft (15-30-jaehrige Hypotheken, Anleihen,
+    Unternehmensfinanzierungen), ist die 10Y-Rate die entscheidende Ankergroesse. Der
+    Abstand zwischen 5Y und 10Y zeigt, ob der Markt langfristig mit Normalisierung
+    oder weiterer Straffung rechnet. Versicherungen und Pensionsfonds orientieren ihre
+    langfristigen Verbindlichkeiten an diesem Zins.
   example: |
-    Bei langen Krediten (z.B. 20 Jahre fix) orientiert sich die Bank am 10Y-Swap,
-    weil sie das Zinsrisiko in Scheiben von 10 Jahren absichert. Der 10Y-Swap lag
-    2020 bei rund 0 %, stieg 2022/23 auf ueber 3 % und war damit der Haupttreiber
-    dahinter, dass langfristige Fixzins-Hypotheken in Europa so dramatisch teurer
-    wurden.
+    Bei langen Krediten (z.B. 20 Jahre fix) orientiert sich die Bank an der 10Y-Rate,
+    weil sie das Zinsrisiko ueber die lange Frist absichert. Die 10Y-Rate lag 2020 bei
+    rund 0 %, stieg 2022/23 auf ueber 3 % und war damit der Haupttreiber dahinter,
+    dass langfristige Fixzins-Hypotheken in Europa so dramatisch teurer wurden.
 
-    **Spread 5Y vs. 10Y:** Liegt der 10Y hoeher als der 5Y (normale Steilheit),
-    erwartet der Markt langfristig hoehere Zinsen oder Inflation. Flacht der
-    Abstand ab, rechnet er mit Stagnation oder Zinssenkungen - das spiegelt denselben
-    Mechanismus wie die US-Zinskurve, nur fuer EUR.
+    **Spread 5Y vs. 10Y:** Liegt die 10Y-Rate hoeher als die 5Y (normale Steilheit),
+    erwartet der Markt langfristig hoehere Zinsen oder Inflation. Flacht der Abstand
+    ab oder invertiert er, rechnet er mit Stagnation oder Zinssenkungen - derselbe
+    Mechanismus wie bei der US-Zinskurve, nur fuer EUR.
 
 - id: euribor_3m
   name: "EURIBOR 3M"

@@ -187,6 +187,7 @@ body {
 
 .panel { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1.2rem 1.5rem; margin-bottom: 1.5rem; }
 .panel h3 { margin: 0 0 1rem; font-size: 1rem; }
+.panel-sub { font-weight: 400; color: var(--text-muted); font-size: 0.82rem; }
 .big-chart { width: 100%; min-height: 360px; }
 
 .stats-table { width: 100%; border-collapse: collapse; }

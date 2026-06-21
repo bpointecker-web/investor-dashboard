@@ -42,7 +42,7 @@
 </section>
 
 <section class="panel">
-  <h3>Verlauf (10 Jahre)</h3>
+  <h3>Verlauf <span class="panel-sub">{{ hist_label }} · {{ hist_years }} Jahre</span></h3>
   <div id="detail-chart" class="big-chart"></div>
   <script type="application/json" class="figdata" data-target="detail-chart">{{ detail_chart|safe }}</script>
 </section>
@@ -53,10 +53,10 @@
   <table class="stats-table">
     <tbody>
       <tr><th>Aktuell</th><td>{{ format_number(snapshot.stats.current, ind.decimals) }} {{ ind.unit }}</td></tr>
-      <tr><th>Median (10J)</th><td>{{ format_number(snapshot.stats.median_10y, ind.decimals) }} {{ ind.unit }}</td></tr>
-      <tr><th>Minimum (10J)</th><td>{{ format_number(snapshot.stats.min_10y, ind.decimals) }} {{ ind.unit }}</td></tr>
-      <tr><th>Maximum (10J)</th><td>{{ format_number(snapshot.stats.max_10y, ind.decimals) }} {{ ind.unit }}</td></tr>
-      <tr><th>Percentil (10J)</th><td>P{{ snapshot.stats.percentile_10y | round | int }}</td></tr>
+      <tr><th>Median ({{ hist_years }}J)</th><td>{{ format_number(snapshot.stats.median_10y, ind.decimals) }} {{ ind.unit }}</td></tr>
+      <tr><th>Minimum ({{ hist_years }}J)</th><td>{{ format_number(snapshot.stats.min_10y, ind.decimals) }} {{ ind.unit }}</td></tr>
+      <tr><th>Maximum ({{ hist_years }}J)</th><td>{{ format_number(snapshot.stats.max_10y, ind.decimals) }} {{ ind.unit }}</td></tr>
+      <tr><th>Percentil ({{ hist_years }}J)</th><td>P{{ snapshot.stats.percentile_10y | round | int }}</td></tr>
       <tr><th>Z-Score (5J)</th><td>{{ format_number(snapshot.stats.z_score_5y, 2) }}</td></tr>
       <tr><th>Δ 1 Tag</th><td class="{{ change_class(snapshot.stats.changes['1d'].percent) }}">{{ format_percent(snapshot.stats.changes['1d'].percent) }}</td></tr>
       <tr><th>Δ 1 Woche</th><td class="{{ change_class(snapshot.stats.changes['1w'].percent) }}">{{ format_percent(snapshot.stats.changes['1w'].percent) }}</td></tr>

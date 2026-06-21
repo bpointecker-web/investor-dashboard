@@ -104,4 +104,39 @@ async def indicator_detail(
     context: dict[str, object] = {"snapshot": snapshot}
     if snapshot.status is SnapshotStatus.OK:
         context["detail_chart"] = charts.detail_chart_json(snapshot)
+        span = _history_span(snapshot)
+        context["hist_label"] = span[0]
+        context["hist_years"] = span[1]
     return templates.TemplateResponse(request, "indicator.html", context)
+
+
+_MONTHS_DE = (
+    "Jan", "Feb", "Mär", "Apr", "Mai", "Jun",
+    "Jul", "Aug", "Sep", "Okt", "Nov", "Dez",
+)
+# Toleranz, ab der die Jahresspanne als ganze Zahl statt "X,Y" gezeigt wird.
+_YEARS_ROUND_TOLERANCE = 0.15
+
+
+def _history_span(snapshot: IndicatorSnapshot) -> tuple[str, str]:
+    """Ehrliche Zeitspanne der Reihe: ("Jun 2016 - Jun 2026", "10") aus echten Daten.
+
+    Verhindert das fruehere irrefuehrende feste "10 Jahre", obwohl manche Quellen
+    (z.B. ICE-BofA-Spreads auf FRED) nur ~3 Jahre liefern.
+    """
+    dates = snapshot.series_dates
+    if not dates:
+        return ("", "")
+    first = datetime.strptime(dates[0], "%Y-%m-%d")
+    last = datetime.strptime(dates[-1], "%Y-%m-%d")
+    years = (last - first).days / 365.25
+    label = (
+        f"{_MONTHS_DE[first.month - 1]} {first.year} - "
+        f"{_MONTHS_DE[last.month - 1]} {last.year}"
+    )
+    # Ganzzahlig wenn nah dran, sonst mit einer Nachkommastelle (Komma im DE-Format).
+    if abs(years - round(years)) < _YEARS_ROUND_TOLERANCE:
+        years_str = str(round(years))
+    else:
+        years_str = f"{years:.1f}".replace(".", ",")
+    return (label, years_str)

@@ -30,6 +30,7 @@ class SourceKind(StrEnum):
     FRED = "fred"
     STOOQ = "stooq"
     COINGECKO = "coingecko"
+    ECB = "ecb"
     SHILLER = "shiller"
     NAAIM = "naaim"
     CFTC = "cftc"

@@ -16,6 +16,7 @@ from dashboard.data_sources.cftc import CftcSource
 from dashboard.data_sources.cnn import CnnSource
 from dashboard.data_sources.coingecko import CoinGeckoSource
 from dashboard.data_sources.computed import ComputedSource
+from dashboard.data_sources.ecb import EcbSource
 from dashboard.data_sources.fallback import FallbackSource
 from dashboard.data_sources.fred import FredSource
 from dashboard.data_sources.naaim import NaaimSource
@@ -63,6 +64,7 @@ class IndicatorService:
                 YahooSource(settings, client),
             ),
             SourceKind.COINGECKO: CoinGeckoSource(settings, client),
+            SourceKind.ECB: EcbSource(settings, client),
             SourceKind.SHILLER: ShillerSource(settings, client),
             SourceKind.NAAIM: NaaimSource(settings, client),
             SourceKind.CFTC: CftcSource(settings, client),

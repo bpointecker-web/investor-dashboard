@@ -68,7 +68,13 @@ def sparkline_json(snapshot: IndicatorSnapshot) -> str:
 
 
 def detail_chart_json(snapshot: IndicatorSnapshot) -> str:
-    """Grosser interaktiver Verlaufschart mit Range-Slider."""
+    """Grosser interaktiver Verlaufschart mit Median- und Schwellen-Referenzen.
+
+    Zusaetzlich zur Linie werden eingezeichnet:
+      - der Median (gestrichelt grau) als "Normal"-Referenz,
+      - die harten Schwellen "erhoeht"/"Stress" (falls definiert) als farbige
+        Linien, damit man die Ampel-Zonen direkt im Verlauf sieht.
+    """
     fig = go.Figure(
         go.Scatter(
             x=snapshot.series_dates,
@@ -76,8 +82,12 @@ def detail_chart_json(snapshot: IndicatorSnapshot) -> str:
             mode="lines",
             line={"width": 1.8, "color": _band_color(snapshot)},
             name=snapshot.indicator.name,
+            hovertemplate="%{x|%d.%m.%Y}: %{y}<extra></extra>",
         )
     )
+
+    _add_reference_lines(fig, snapshot)
+
     fig.update_layout(
         height=440,
         margin={"l": 50, "r": 20, "t": 20, "b": 30},
@@ -89,3 +99,30 @@ def detail_chart_json(snapshot: IndicatorSnapshot) -> str:
         yaxis={"title": {"text": snapshot.indicator.unit}, "fixedrange": False},
     )
     return str(fig.to_json())
+
+
+def _add_reference_lines(fig: go.Figure, snapshot: IndicatorSnapshot) -> None:
+    """Zeichnet Median- und Schwellen-Linien als horizontale Referenzen ein."""
+    if snapshot.stats is not None:
+        fig.add_hline(
+            y=snapshot.stats.median_10y,
+            line={"color": "#8a94a3", "width": 1, "dash": "dash"},
+            annotation_text="Median",
+            annotation_position="right",
+        )
+
+    thresholds = snapshot.indicator.thresholds
+    if thresholds is None:
+        return
+    for value, label, color in (
+        (thresholds.elevated, "erhöht", BAND_COLORS[Band.ELEVATED]),
+        (thresholds.stress, "Stress", BAND_COLORS[Band.STRESS]),
+    ):
+        if value is None:
+            continue
+        fig.add_hline(
+            y=value,
+            line={"color": color, "width": 1, "dash": "dot"},
+            annotation_text=label,
+            annotation_position="right",
+        )

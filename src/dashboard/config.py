@@ -65,6 +65,8 @@ class Settings(BaseSettings):
     # Yahoo Finance Chart-API als Fallback fuer stooq (stooq blockt teils ganze IPs).
     yahoo_base_url: str = "https://query1.finance.yahoo.com"
     coingecko_base_url: str = "https://api.coingecko.com/api/v3"
+    # EZB Statistical Data Warehouse (Euro-Zinskurve, gratis, kein Key).
+    ecb_base_url: str = "https://data-api.ecb.europa.eu/service"
     # Shiller/NAAIM nutzen datierte/versionierte Dateinamen -> Link-Discovery von der
     # jeweiligen Seite (Fallback: direkte URL, falls Discovery scheitert).
     shiller_page_url: str = "https://shillerdata.com/"
