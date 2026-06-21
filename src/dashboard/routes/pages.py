@@ -104,5 +104,4 @@ async def indicator_detail(
     context: dict[str, object] = {"snapshot": snapshot}
     if snapshot.status is SnapshotStatus.OK:
         context["detail_chart"] = charts.detail_chart_json(snapshot)
-        context["histogram"] = charts.histogram_json(snapshot)
     return templates.TemplateResponse(request, "indicator.html", context)

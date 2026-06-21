@@ -1,11 +1,10 @@
-"""Plotly-Helfer: erzeugt Sparkline-, Detail- und Histogramm-Figuren als JSON.
+"""Plotly-Helfer: erzeugt Sparkline- und Detail-Figuren als JSON.
 
 Die Figuren werden als JSON eingebettet und clientseitig via plotly.js gerendert.
 """
 
 from __future__ import annotations
 
-import numpy as np
 import plotly.graph_objects as go
 
 from dashboard.indicators.models import Band, IndicatorSnapshot
@@ -20,7 +19,6 @@ BAND_COLORS: dict[Band, str] = {
 
 _TRANSPARENT = "rgba(0,0,0,0)"
 _SPARKLINE_MAX_POINTS = 200
-_QUANTILES = (10, 25, 50, 75, 90)
 
 
 def _band_color(snapshot: IndicatorSnapshot) -> str:
@@ -89,48 +87,5 @@ def detail_chart_json(snapshot: IndicatorSnapshot) -> str:
         hovermode="x unified",
         xaxis={"rangeslider": {"visible": True}, "type": "date"},
         yaxis={"title": {"text": snapshot.indicator.unit}, "fixedrange": False},
-    )
-    return str(fig.to_json())
-
-
-def histogram_json(snapshot: IndicatorSnapshot) -> str:
-    """Verteilungs-Histogramm mit Quantil-Linien und aktuellem Wert."""
-    values = np.asarray(snapshot.series_values, dtype="float64")
-    fig = go.Figure(
-        go.Histogram(
-            x=values,
-            nbinsx=40,
-            marker={"color": "#90a4ae"},
-            opacity=0.75,
-            hovertemplate="%{x}<br>n=%{y}<extra></extra>",
-        )
-    )
-
-    for q in _QUANTILES:
-        qv = float(np.percentile(values, q))
-        fig.add_vline(
-            x=qv,
-            line={"color": "#607d8b", "width": 1, "dash": "dot"},
-            annotation_text=f"P{q}",
-            annotation_position="top",
-        )
-
-    if snapshot.stats is not None:
-        fig.add_vline(
-            x=snapshot.stats.current,
-            line={"color": _band_color(snapshot), "width": 2.5},
-            annotation_text="aktuell",
-            annotation_position="top right",
-        )
-
-    fig.update_layout(
-        height=360,
-        margin={"l": 50, "r": 20, "t": 30, "b": 30},
-        paper_bgcolor=_TRANSPARENT,
-        plot_bgcolor=_TRANSPARENT,
-        showlegend=False,
-        bargap=0.02,
-        xaxis={"title": {"text": snapshot.indicator.unit}},
-        yaxis={"title": {"text": "Haeufigkeit"}},
     )
     return str(fig.to_json())

@@ -90,7 +90,6 @@ def test_indicator_detail_ok(test_client: TestClient) -> None:
     assert resp.status_code == 200
     assert "Was misst er?" in resp.text
     assert "detail-chart" in resp.text
-    assert "histogram" in resp.text
 
 
 def test_indicator_detail_unknown_404(test_client: TestClient) -> None:
