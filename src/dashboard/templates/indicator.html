@@ -37,6 +37,9 @@
   <div class="explain-block explain-rules">
     <h3>Faustregeln für Investoren</h3>
     {{ format_richtext(ind.rules) }}
+    {% if ind.rules_source %}
+    <p class="rules-source">Quelle: {{ ind.rules_source }}</p>
+    {% endif %}
   </div>
   {% endif %}
 </section>

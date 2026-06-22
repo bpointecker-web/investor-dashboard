@@ -184,6 +184,7 @@ body {
 .explain-example { border-left: 3px solid var(--accent); }
 .explain-rules { border-left: 3px solid var(--band-low); grid-column: 1 / -1; }
 .explain-rules h3 { color: var(--band-low); }
+.explain-block .rules-source { font-size: 0.78rem; color: var(--text-muted); margin-top: 0.75rem; margin-bottom: 0; font-style: italic; }
 
 .panel { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1.2rem 1.5rem; margin-bottom: 1.5rem; }
 .panel h3 { margin: 0 0 1rem; font-size: 1rem; }

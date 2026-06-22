@@ -103,6 +103,7 @@ class Indicator(BaseModel):
     why: str = ""
     example: str = ""
     rules: str = ""  # optionale Faustregeln fuer Investoren
+    rules_source: str = ""  # Quellenangabe zu den Faustregeln (z.B. "ICE BofA via FRED")
 
     @model_validator(mode="after")
     def _check_source_ref(self) -> Indicator:

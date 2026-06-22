@@ -77,6 +77,7 @@
     ETF mit hunderten Anleihen eine Firma pleite, kostet das nur Bruchteile eines Prozents;
     haeltst du genau diese eine Anleihe, ist das Kapital weg. Breite Streuung wandelt das
     Totalverlust-Risiko in ein kalkulierbares Durchschnittsrisiko um.
+  rules_source: "Historische Muster basierend auf ICE BofA US High Yield Index (FRED: BAMLH0A0HYM2) · keine Anlageberatung"
 
 - id: us_ig_spread
   name: "US Investment Grade Spread (OAS)"
