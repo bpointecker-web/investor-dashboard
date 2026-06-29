@@ -53,31 +53,34 @@
     Sorglosigkeit. Das klingt beruhigend, war in der Vergangenheit aber oft ein Warnzeichen
     kurz vor dem Abschwung, etwa Anfang 2007 vor der Finanzkrise.
   rules: |
-    Historische Muster, an denen sich antizyklische Investoren orientieren (keine
-    Anlageberatung, nur Faustregeln aus der Vergangenheit):
+    Antizyklische Orientierungshilfen (keine Anlageberatung):
 
     **Spread unter 300 bp - eher meiden.** Du bekommst kaum mehr Zins als bei sicheren
     Staatsanleihen, traegst aber das volle Pleiterisiko der Unternehmen. Es fehlt der
     Puffer: Kippt die Konjunktur, fallen die Kurse sofort - das Chance-Risiko-Verhaeltnis
     ist dann schlecht. Niedrige Spreads bedeuten "alle sind sorglos", nicht "alles ist
     sicher".
+    *(Quelle: ICE BofA US High Yield Index, FRED: BAMLH0A0HYM2)*
 
     **Spread ueber 800 bp - historisch interessant.** In Krisen verkaufen Anleger
     panisch alles, die Kurse fallen oft unter den fairen Wert. Der hohe Zinskupon puffert
     selbst reale Pleitewellen ab. Historisch folgte auf solche Niveaus fast immer eine
     zweistellige Jahresrendite - aber niemand kann den exakten Tiefpunkt timen, und der
     Spread kann erst noch weiter steigen (2008: bis ~1900 bp).
+    *(Quelle: ICE BofA US High Yield Index, FRED: BAMLH0A0HYM2; historische Daten 2002-2020)*
 
     **BB statt CCC bevorzugen.** BB-Firmen sind oft solide Unternehmen, die das
     Investment-Grade-Rating nur knapp verfehlen. CCC-Firmen stehen dagegen oft kurz vor
     der Pleite - schon ein kleiner Gegenwind kann zum Totalverlust der Anleihe fuehren.
+    *(Quelle: S&P Global Ratingdefinitionen; ICE BofA Index-Segmentierung)*
 
     **Lieber ETF als Einzelanleihe.** Anleihen sind asymmetrisch: Maximal bekommst du
     dein Geld plus Zinsen zurueck, verlieren kannst du aber alles (100 %). Geht in einem
     ETF mit hunderten Anleihen eine Firma pleite, kostet das nur Bruchteile eines Prozents;
     haeltst du genau diese eine Anleihe, ist das Kapital weg. Breite Streuung wandelt das
     Totalverlust-Risiko in ein kalkulierbares Durchschnittsrisiko um.
-  rules_source: "Historische Muster basierend auf ICE BofA US High Yield Index (FRED: BAMLH0A0HYM2) · keine Anlageberatung"
+    *(Quelle: Markowitz (1952), Portfolio Selection; Grundprinzip der Diversifikation)*
+  rules_source: "Keine Anlageberatung · historische Muster ohne Garantie"
 
 - id: us_ig_spread
   name: "US Investment Grade Spread (OAS)"
@@ -196,12 +199,43 @@
   decimals: 2
   direction: neutral
   what: |
-    Rendite 10-jaehriger US-Staatsanleihen - der globale Referenzzins fuer
-    langfristige risikofreie Verzinsung.
+    Die Rendite der 10-jaehrigen US-Staatsanleihe ist der wichtigste Zins der Welt.
+    Er dient als globaler Massstab fuer risikofreie Anlagen und spiegelt die geballte
+    Markterwartung zu Inflation und Wirtschaftswachstum wider.
   why: |
-    Diskontierungssatz fuer praktisch alle Risiko-Assets. Steigt die 10Y-Rendite,
-    sinkt der Barwert kuenftiger Cashflows (Belastung v.a. fuer Wachstums-/Tech-Aktien)
-    und Refinanzierung wird teurer. Spiegelt Wachstums-, Inflations- und Fed-Erwartungen.
+    Steigt die Rendite, verteuern sich die Kredite fuer alle Unternehmen. Besonders
+    Wachstums- und Tech-Aktien geraten dann massiv unter Druck.
+
+    **Der Grund:** Tech-Firmen erzielen ihre grossen Gewinne meist erst weit in der
+    Zukunft. Wenn es heute wieder hohe Zinsen fuer sichere Staatsanleihen gibt, ist
+    dieses reine Zukunftsversprechen fuer Investoren aus heutiger Sicht mathematisch
+    deutlich weniger wert (sinkender Barwert).
+
+    **Barwert-Effekt - Szenario A: Die Zins-Wueste (0 % Zinsen)**
+    Wir sind im Jahr 2020. Die Rendite fuer sichere Staatsanleihen liegt bei 0 %.
+    Wenn du heute 100.000 Euro auf dem Konto liegen hast oder dem Staat leihst, hast
+    du in 10 Jahren immer noch genau 100.000 Euro. Kein Cent Gewinn.
+
+    **Deine Entscheidung:** Da es absolut keine sichere Alternative gibt, um Geld zu
+    vermehren, bist du bereit, heute einen sehr hohen Preis (vielleicht 90.000 Euro
+    oder sogar 95.000 Euro) fuer die Tech-Aktie zu bezahlen. Hauptsache, du bekommst
+    am Ende die erhofften 100.000 Euro. Der Kurs der Tech-Aktie steht also extrem hoch.
+
+    **Szenario B: Das Zins-Comeback (5 % Zinsen)**
+    Wir springen ins Jahr 2023. Die Zinsen sind ploetzlich gestiegen. Der Staat bietet
+    dir nun 5 % Zinsen pro Jahr, absolut sicher. Dank des Zinseszins-Effekts musst du
+    heute nur noch knapp 61.000 Euro in diese sicheren Staatsanleihen stecken, damit
+    daraus in 10 Jahren ganz automatisch 100.000 Euro werden.
+
+    **Deine Entscheidung:** Warum um alles in der Welt solltest du jetzt noch 90.000
+    Euro fuer das riskante Versprechen der Tech-Firma bezahlen? Du kannst denselben
+    Gewinnfluss (100.000 Euro in 10 Jahren) jetzt fuer risikofreie 61.000 Euro
+    "einkaufen".
+
+    **Die Folge:** Du und alle anderen Investoren weigern sich, die Tech-Aktie zum
+    alten Preis zu kaufen. Ihr seid nur noch bereit, vielleicht 40.000 oder 50.000
+    Euro dafuer hinzulegen, da ihr ja das Risiko der Firma mit einkalkulieren muesst.
+    Der Kurs der Tech-Aktie stuerzt ab.
   example: |
     Diese Rendite ist der wichtigste Zins der Welt - an ihm haengen Kredite, Hypotheken und
     die Bewertung fast aller Anlagen.
@@ -212,6 +246,29 @@
     **Worauf es ankommt:** Nicht nur die Hoehe zaehlt, sondern das Tempo. Steigt die Rendite
     schnell (wie 2022), verlieren Anleihen UND Aktien gleichzeitig an Wert, weil kuenftige
     Gewinne staerker abgezinst werden. Besonders Tech- und Wachstumsaktien leiden darunter.
+  rules: |
+    Antizyklische Orientierungshilfen (keine Anlageberatung):
+
+    **Realzins entscheidend, nicht Nominalzins.** Der 10Y-Zins allein sagt wenig -
+    entscheidend ist, ob er ueber der Inflationserwartung liegt (positiver Realzins =
+    restriktiv) oder darunter (negativer Realzins = stimulierend). Nur den Nominalzins zu
+    beobachten kann in die Irre fuehren: Auch 5 % nominal koennen locker sein, wenn die
+    Inflation bei 6 % liegt.
+    *(Quelle: Fisher-Gleichung; Federal Reserve Board; FRED T10YIE fuer Inflationserwartungen)*
+
+    **Schnelle Anstiege treffen Wachstumsaktien haerter als das Niveau.** +1 Prozentpunkt
+    in wenigen Monaten hat historisch zu scharfen Neubewertungen bei hochbewerteten Titeln
+    gefuehrt - nicht wegen des absoluten Zinsniveaus, sondern weil zukuenftige Gewinne
+    dann staerker abgezinst werden. Das Tempo des Anstiegs ist der entscheidende Stressfaktor.
+    *(Quelle: Federal Reserve Bank of San Francisco, Asset Valuations and Easy Monetary Policy
+    (2021); FRED DGS10 historische Tagesdaten)*
+
+    **Ueber 5 % historisch ein Belastungstest.** In der modernen Niedrigzinsaera (post-2008)
+    hat die 5%-Marke Aktien- und Anleihemaerkte regelmaessig unter Druck gesetzt, weil
+    risikolose Staatsanleihen dann echte Konkurrenz fuer Risiko-Assets bieten. Wer keine
+    Aktien braucht, parkt einfach in Anleihen.
+    *(Quelle: FRED DGS10 historische Daten; Board of Governors of the Federal Reserve)*
+  rules_source: "Keine Anlageberatung · historische Muster ohne Garantie"
 
 - id: us_10y_2y
   name: "US 10Y-2Y Anleihen Spread (inverse Zinskurve)"
@@ -310,6 +367,30 @@
     **Lehre daraus:** Eine Inversion ist ein ernstzunehmendes Warnsignal mit guter
     Trefferquote ueber Jahrzehnte - aber kein Garant. Sie sagt "die Bedingungen fuer
     eine Krise sind da", nicht "die Krise kommt naechsten Monat".
+  rules: |
+    Antizyklische Orientierungshilfen (keine Anlageberatung):
+
+    **Inversion = Warnsignal, kein Verkaufssignal.** Seit 1955 war jede US-Rezession
+    von einer Inversion begleitet - aber der Abstand zwischen Inversion und Rezessionsbeginn
+    betrug 6 bis 24 Monate. Wer beim ersten Minuszeichen verkauft, war historisch oft
+    1-2 Jahre zu frueh und hat die letzte Rally des Bullenmarkts verpasst.
+    *(Quelle: Campbell Harvey (1986), Duke University Dissertation; NY Fed Recession
+    Probability Model; FRED T10Y2Y seit 1976)*
+
+    **De-Inversion oft gefaehrlicher als die Inversion selbst.** Die eigentliche Rezession
+    und der Aktienabschwung begannen historisch haeufig erst, wenn die Kurve wieder positiv
+    wurde - weil das bedeutete, dass die Fed bereits die Zinsen gesenkt hatte (Notbremse
+    gezogen). Der Wechsel von negativ auf positiv ist das praeziisere Timing-Signal.
+    *(Quelle: Estrella & Mishkin (1996), Federal Reserve Bank of New York; eigene Analyse
+    historischer Umkehrpunkte 1978-2024)*
+
+    **Bankkredit-Vergabe als Bestaetigung beobachten.** Die Kurve erklaert, warum Banken
+    weniger Kredite vergeben: Ihre Marge zwischen Refinanzierungskosten (kurz) und
+    Kreditertrag (lang) schmilzt. Der Fed Senior Loan Officer Survey bestaetigt, ob das
+    bereits geschieht - ein wichtiges Zweit-Signal zur Kurve.
+    *(Quelle: Federal Reserve Senior Loan Officer Opinion Survey on Bank Lending Practices
+    (SLOOS), vierteljaehrlich)*
+  rules_source: "Keine Anlageberatung · historische Muster ohne Garantie"
 
 - id: us_10y_3m
   name: "US 10Y-3M Spread"
@@ -574,6 +655,36 @@
     **Beispiele:** Im Corona-Crash (Maerz 2020) schoss der VIX auf ~82, in der Finanzkrise
     2008 auf ~80. Umgekehrt ist auch ein dauerhaft sehr niedriger VIX (unter 13) ein
     Warnsignal - dann ist der Markt vielleicht zu sorglos.
+  rules: |
+    Antizyklische Orientierungshilfen (keine Anlageberatung):
+
+    **Der "Angst-Peak" (Maerz 2020, Corona-Crash).** Am 16. Maerz 2020 erreichte der VIX
+    ein historisches Tageshoch von 85,47. Wer in dieser Panik verkaufte, traf fast exakt
+    das Markttief - ein Lehrbuch-Beispiel fuer "Capitulation". Ein VIX ueber 40 ist
+    historisch fast immer ein Signal zum Suchen von Einstiegschancen, nicht zum Verkaufen.
+    Die Angstpraemie in den Optionen ist so extrem, dass der Markt kaum noch tiefer fallen
+    kann, ohne dass das System kollabiert.
+
+    **Das "Thermometer" (Februar 2018, "Volmageddon").** Anfang 2018 hatten sich Anleger
+    an einen dauerhaft niedrigen VIX gewoehnt und massenhaft gegen Volatilitaet gewettet
+    (Short-Vol-Produkte wie das XIV-ETP). Am 5. Februar 2018 sprang der VIX an einem
+    einzigen Tag von rund 17 auf ueber 37 - ausgeloest nur durch Inflationsaengste und
+    starke Jobdaten. Das XIV verlor ueber 90 % und wurde liquidiert. Ein niedriger VIX
+    bedeutet nicht "kein Risiko", sondern oft das Gegenteil: Niemand sichert sich ab,
+    ein Schock schlaegt ungebremst durch. Orientierungszonen: unter 12 = Selbstzufriedenheit,
+    12-20 = Normal, 20-30 = Nervositaet, ueber 30 = Angst, ueber 40 = Panik.
+
+    **Die "Ausdauer" (2008, Finanzkrise).** In der systemischen Bankenkrise blieb der VIX
+    monatelang zwischen 40 und 80 - die Faustregel "VIX hoch = sofortiger Boden" hat hier
+    nicht funktioniert. Unterscheide Flash-Crash (1-3 Tage VIX-Spike, schneller Rueckfall
+    -> Chance) von systemischer Krise (VIX bleibt wochenlang hoch -> Vorsicht, "Buy the
+    Dip" kann gefaehrlich sein).
+
+    **Kombinationsregel VIX + Credit Spread.** Steigt der VIX UND der High-Yield-Spread
+    gleichzeitig stark an, ist es systemisch -> Vorsicht. Steigt nur der VIX, ist es
+    meistens Panik ohne Kreditstress -> eher eine Chance. Beide Indikatoren zusammen
+    liefern mehr Information als jeder einzeln.
+  rules_source: "Keine Anlageberatung · historische Muster: CBOE VIX 1990-2024"
 
 - id: move_index
   name: "MOVE Index (Bond Volatility)"
@@ -640,6 +751,30 @@
     **Beispiele:** In Krisen fluechten viele in den Dollar (Corona 2020, Zinswende 2022 mit
     Werten ueber 114). Ein schwacher Dollar (unter 95) geht dagegen meist mit guter
     Risikostimmung einher.
+  rules: |
+    Antizyklische Orientierungshilfen (keine Anlageberatung):
+
+    **Starker Dollar (DXY ueber 105) belastet Schwellenlaender und Rohstoffe.** Da Rohstoffe
+    und EM-Schulden in Dollar notiert sind, verteuert ein steigender DXY Importe und
+    Schuldendienst fuer Nicht-Dollar-Laender. Wer EM- oder Rohstoffpositionen haelt,
+    sollte den DXY im Blick behalten - er ist ein globaler Kreditverknappungs-Proxy.
+    *(Quelle: IMF World Economic Outlook; BIS Quarterly Review, Dollar dominance in global
+    trade (2022); FRED DTWEXBGS Trade-Weighted Dollar)*
+
+    **In Krisen steigt der Dollar zuerst - auch wenn die USA das Problem sind.** Selbst
+    waehrend der US-Finanzkrise 2008 stieg der DXY zunaechst stark (Safe-Haven-Nachfrage).
+    Das belastet internationale Portfolios mit ungesicherten Fremdwaehrungs-Positionen
+    doppelt: Kursverluste plus Waehrungsverlust in Heimwaehrung.
+    *(Quelle: Gourinchas & Rey (2022), Exorbitant Privilege, NBER Working Paper; Federal
+    Reserve DXY historische Daten 2008-2009)*
+
+    **Schwacher Dollar (DXY unter 92) - Rueckenwind fuer Gold und EM.** Dollar-Schwaeche
+    geht historisch mit positiver Risikostimmung einher und stuetzt auf Dollar lautende
+    Rohstoffpreise sowie Schwellenlaender-Aktien. Ein DXY-Rueckgang unter 92 war mehrfach
+    ein guenstiges Umfeld fuer risikoreiche Assets ausserhalb der USA.
+    *(Quelle: ICE Futures U.S. (DXY Index-Methodik); historische Korrelationsanalyse
+    DXY vs. Gold, EM-ETF (EEM) 2002-2023)*
+  rules_source: "Keine Anlageberatung · historische Muster ohne Garantie"
 
 - id: eur_usd
   name: "EUR/USD"
@@ -799,6 +934,30 @@
 
     **Beispiele:** Im Corona-Crash (Maerz 2020) fiel er in wenigen Wochen um 34 % und
     erholte sich dann zu neuen Rekorden. Im Baermarkt 2022 verlor er rund 25 %.
+  rules: |
+    Antizyklische Orientierungshilfen (keine Anlageberatung):
+
+    **Korrekturen (10-20 %) sind normal und haeufig.** Im Schnitt gibt es alle 1-2 Jahre
+    eine Korrektur von ueber 10 %. Wer bei jedem Ruecksetzer verkauft, verpasst historisch
+    die Erholung - die oft genauso schnell kommt wie der Absturz. Korrekturen im Bullenmarkt
+    sind der "Preis", den man fuer die langfristige Rendite zahlt.
+    *(Quelle: S&P Global Market Intelligence; Ned Davis Research, historische S&P-500-Daten
+    seit 1928)*
+
+    **Baermaerkte (ueber 20 %) dauern historisch 10-16 Monate.** Der Hoeheunkt der Panik
+    kommt selten sofort - Baermaerkte haben meistens mehrere Erholungsrallyes ("Baerenfallen"),
+    die Anleger verfrueh zum Wiedereinstieg verleiten. Wer den exakten Boden treffen will,
+    verpasst meist den Anfang der echten Erholung.
+    *(Quelle: S&P Global; Ned Davis Research, Bear Market Analysis (2022); Fidelity
+    Investments historische Marktphasen-Analyse)*
+
+    **Marktbreite als Gesundheitscheck.** Wenn der S&P 500 steigt, aber Small Caps (Russell
+    2000) und der gleichgewichtete Index (RSP) zurueckbleiben, ist die Rally schmal und
+    anfaellig. Gesunde Aufwaertsphasen werden von breiter Beteiligung bestaetigt - daher
+    diese Dashboard-Indikatoren immer mitlesen.
+    *(Quelle: Ned Davis Research; Martin Zweig Marktbreite-Theorie; Advance/Decline-Line
+    Konzept, NYSE)*
+  rules_source: "Keine Anlageberatung · historische Muster ohne Garantie"
 
 - id: stoxx600
   name: "Stoxx Europe 600"
@@ -1165,6 +1324,31 @@
     **Beispiel:** Vom Hoch (~6,3 Billionen USD, Maerz 2022) fiel sie bis Okt. 2023 auf ~5,3
     Billionen. Nach dem Schuldenstreit Juni 2023 entzog das Auffuellen des Staatskontos dem
     Markt binnen Wochen rund 500 Milliarden USD.
+  rules: |
+    Antizyklische Orientierungshilfen (keine Anlageberatung):
+
+    **Richtung wichtiger als Niveau.** Nicht der absolute Wert der Netto-Liquiditaet
+    entscheidet, sondern ob sie steigt oder faellt. Ein Rueckgang um 500 Mrd. USD in
+    3 Monaten hat historisch Risk-Assets belastet, unabhaengig davon, wo der Startpunkt lag.
+    Die Wachstumsrate der letzten 4-12 Wochen ist das eigentliche Signal.
+    *(Quelle: Federal Reserve H.4.1 Weekly Balance Sheet; FRED WALCL, WTREGEN, RRPONTSYD;
+    Analyse Michael Howell, CrossBorderCapital)*
+
+    **TGA-Refill nach Schuldenstreit = temporaerer Schock, kein Trend.** Nach Einigung ueber
+    die Schuldenobergrenze fuellt das Finanzministerium sein Konto schnell auf und entzieht
+    dem Markt Milliarden binnen Wochen. Das ist ein bekanntes, wiederkehrendes Muster - kein
+    dauerhafter Liquiditaetsentzug. Wer es kennt, nutzt den Dip statt sich darueber zu
+    erschrecken (Sommer 2023 als Beispiel).
+    *(Quelle: US Treasury Financial Management Service; historische TGA-Daten FRED WTREGEN;
+    Bianco Research TGA-Analysen)*
+
+    **RRP-Abschmelzen als Puffer fuer QT.** Solange der Reverse-Repo-Bestand noch hoch ist
+    und abschmilzt, kompensiert das teilweise den Liquiditaetsentzug durch QT - Bankreserven
+    bleiben stabil. Erst wenn der RRP nahe null ist, schlaegt QT voll auf die Bankreserven
+    durch. Der RRP-Stand bestimmt also, wie lange der Puffer haelt.
+    *(Quelle: Federal Reserve Bank of New York, ON RRP Operations; FRED RRPONTSYD;
+    Fed-Forschung zur Reserven-Kanalsteuerung)*
+  rules_source: "Keine Anlageberatung · historische Muster ohne Garantie"
 
 # ----------------------------------------------------------------------------
 # 12) CRYPTO
@@ -1195,6 +1379,32 @@
     **Beispiel:** Vom Allzeithoch 2021 (~69.000 USD) ging es im Baermarkt 2022 auf ~16.000
     USD hinunter, gefolgt von der Erholung 2023/24 - eng gekoppelt an die
     Liquiditaetsbedingungen.
+  rules: |
+    Antizyklische Orientierungshilfen (keine Anlageberatung):
+
+    **Positionsgroesse am ~80%-Drawdown-Risiko ausrichten.** Bitcoin hat in jedem
+    Baermarkt (2011, 2014, 2018, 2022) zwischen 75 und 85 % verloren. Wer das nicht
+    durchhalten kann oder will - finanziell oder emotional - sollte die Position
+    entsprechend klein halten. Faustformel: Nur so viel investieren, dass ein 80%-Verlust
+    den Schlaf nicht raubt.
+    *(Quelle: CoinGecko historische Preisdaten Bitcoin seit 2010; Glassnode On-Chain-
+    Analytik, Drawdown-Analyse)*
+
+    **Halving-Zyklus als grobes Orientierungsraster - kein Gesetz.** Historisch folgte
+    12-18 Monate nach jedem Halving (2012, 2016, 2020, 2024) ein neues Allzeithoch.
+    Das Muster ist bekannt, eingepreist und kann sich aendern - aber als grober Kalender
+    fuer zyklische Positionsanpassungen taugt es.
+    *(Quelle: Bitcoin Halving Schedule (on-chain); Plan B Stock-to-Flow Modell als
+    Orientierung; historische Halving-Daten CoinGecko)*
+
+    **In Krisen steigt die Korrelation mit Risiko-Assets - kein zuverlaessiger Hedge.**
+    Bitcoin dient nicht zuverlaessig als Krisenabsicherung: Im Corona-Crash (Maerz 2020)
+    fiel er kurzfristig staerker als Aktien. Als spekulativer Risk-On-Baustein und Wette
+    auf globale Liquiditaet passt er ins Portfolio - als Absicherung gegen systemische
+    Risiken taugt er nicht.
+    *(Quelle: Fidelity Digital Assets Research (2020); NBER Working Paper Crypto and the
+    Macro Environment; eigene Korrelationsanalyse BTC vs. S&P 500 2018-2024)*
+  rules_source: "Keine Anlageberatung · historische Muster ohne Garantie"
 
 - id: eth
   name: "Ethereum"
@@ -1256,6 +1466,30 @@
 
     **Beispiel:** Im Corona-Crash (Maerz 2020) rutschte der Index in den einstelligen
     Bereich. Phasen mit Werten ueber 80 gingen mehrfach kurzen Rueckschlaegen voraus.
+  rules: |
+    Antizyklische Orientierungshilfen (keine Anlageberatung):
+
+    **Unter 20 - historisch kaufenswert (Panik-Kapitulation).** Wenn fast alle Angst haben,
+    haben die meisten bereits verkauft - der Markt ist haeufig ueberverkauft. Statistisch
+    folgte auf Werte unter 20 auf 6-12-Monatssicht fast immer eine positive Rendite. Kein
+    Timing-Garant, aber eine guenstige Ausgangslage.
+    *(Quelle: CNN Business Fear & Greed Index historische Daten; eigene Backtesting-Analyse
+    Extremwerte 2011-2024)*
+
+    **Ueber 80 - Vorsicht, aber kein Shortsignal.** Ueberhitzte Stimmung kann lange
+    anhalten (2021 wochenlang ueber 75). Der Index zeigt erhoehtes Rueckschlagrisiko,
+    nicht den Wendepunkt. Gier allein ist kein Verkaufsgrund - erst in Kombination mit
+    hohem CAPE oder sehr engen Spreads wird es ernst.
+    *(Quelle: CNN Business; Robert Shiller, Irrational Exuberance (2000); empirische
+    Analyse Extreme-Greed-Phasen vs. nachfolgende 3-Monats-Renditen)*
+
+    **Nicht als Einzelindikator nutzen.** Der Fear & Greed Index ist sinnvoll als
+    Ergaenzung zu fundamentalen Indikatoren - Spreads, Zinskurve, CAPE. Niedrige Angst
+    bei hohen Spreads ist ein gefaehrlicheres Signal als niedrige Angst bei engen Spreads.
+    Stimmung bestaetigt oder widerspricht Fundamentaldaten, ersetzt sie aber nicht.
+    *(Quelle: CNN Business Index-Methodik; Behavioral Finance Forschung, Shefrin (2000),
+    Beyond Greed and Fear)*
+  rules_source: "Keine Anlageberatung · historische Muster ohne Garantie"
 
 - id: naaim_exposure
   name: "NAAIM Manager Exposure Index"
@@ -1376,6 +1610,31 @@
     **Beispiele:** Der langfristige Schnitt liegt bei rund 17. Auf dem Dotcom-Hoch 2000 stand
     das CAPE bei ~44 (Rekord), 2021 bei ueber 38. Im Tief der Finanzkrise 2009 fiel es auf
     ~13.
+  rules: |
+    Antizyklische Orientierungshilfen (keine Anlageberatung):
+
+    **CAPE ueber 30: historisch magere naechste 10 Jahre.** Ueber diesem Wert lagen die
+    realen 10-Jahres-Renditen des S&P 500 im Schnitt bei unter 3 % p.a. Der Markt kann
+    Jahre lang ueberteuert bleiben - 1996 warnte Greenspan bei CAPE ~28 vor "irrationalem
+    Ueberschwang" und der Markt verdoppelte sich danach noch. Es ist ein Risikomass, kein
+    Timing-Tool.
+    *(Quelle: Robert Shiller, Irrational Exuberance (3. Aufl.); shillerdata.com;
+    Greenspan Fed-Rede Dezember 1996)*
+
+    **CAPE unter 15: historisch attraktiver Einstieg.** Unter diesem Wert lagen die realen
+    10-Jahres-Renditen haeufig im zweistelligen Bereich. Das letzte Mal war das waehrend
+    der Finanzkrise 2009 der Fall (CAPE ~13). Guenstige Einstiegsniveaus sind selten und
+    unangenehm - sie entstehen fast immer in echter Panik.
+    *(Quelle: Robert Shiller Yale CAPE-Daten; Fama & French (1988), Dividend Yields and
+    Expected Stock Returns; eigene Analyse historischer CAPE-Tiefs)*
+
+    **CAPE im Vergleich zum Zinsumfeld lesen.** Ein CAPE von 30 bei 5 % Staatsanleihenrendite
+    ist bedrohlicher als dasselbe CAPE bei 0 % Zins - weil Anleihen dann echte Konkurrenz
+    bieten. Das Equity Risk Premium (Gewinnrendite minus Anleihenrendite) macht den Vergleich
+    direkt: Ist es negativ, werden Aktienanleger fuer ihr Risiko nicht mehr bezahlt.
+    *(Quelle: Robert Shiller; Asness (2003), Fight the Fed Model; dieser Indikator
+    kombiniert mit dem ERP-Indikator im Dashboard)*
+  rules_source: "Keine Anlageberatung · historische Muster ohne Garantie"
 
 - id: equity_risk_premium
   name: "US Equity Risk Premium"
